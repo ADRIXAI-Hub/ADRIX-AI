@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b16">
+<title>ADRIX AI</title>
+<style>
+:root{--bg:#080b16;--panel:#101629;--panel2:#151e34;--blue:#3985ff;--purple:#925cff;--muted:#9ba9c5;--line:#253451}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#172a51 0%,var(--bg) 58%);color:#f5f7ff;font-family:system-ui,Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:760px;margin:auto;min-height:100dvh;padding-bottom:150px}
+header{height:76px;padding:12px 17px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #ffffff12;background:#090e1cdd;position:sticky;top:0;z-index:5;backdrop-filter:blur(15px)}
+.logo{width:45px;height:45px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,#388cff,#824dff);box-shadow:0 0 25px #367fff55;font-size:25px;font-weight:900}
+.brand{flex:1;min-width:0}
+.brand h2{font-size:19px;margin:0;letter-spacing:1px}
+.brand p{margin:2px 0 0;color:#a8b8d8;font-size:11px}
+.status{font-size:10px;color:#65e9b2}
+.headbtn{background:#17223b;color:#dce8ff;border:1px solid #304263;border-radius:12px;padding:9px;font-size:12px}
+main{padding:18px 15px}
+.hero{text-align:center;padding:24px 8px 22px}
+.robot{height:105px;width:105px;margin:0 auto 17px;border-radius:34px;display:grid;place-items:center;background:linear-gradient(140deg,#183f75,#442778);border:1px solid #6e9cff77;box-shadow:0 0 45px #367dff30;font-size:53px}
+.eyebrow{color:#75aaff;font-size:11px;letter-spacing:3px;font-weight:800}
+.hero h1{font-size:29px;margin:9px 0;background:linear-gradient(90deg,#fff,#80b5ff,#c09aff);background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 auto;max-width:330px}
+.sectiontitle{font-size:13px;font-weight:750;margin:15px 0 11px;color:#e5edff}
+.shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.shortcut{min-height:83px;text-align:left;border:1px solid var(--line);background:linear-gradient(135deg,#151f35,#0e1425);border-radius:17px;color:white;padding:13px}
+.shortcut .ico{font-size:21px;display:block;margin-bottom:7px}
+.shortcut strong{font-size:12px;display:block}
+.shortcut small{font-size:10px;color:var(--muted)}
+#messages{display:flex;flex-direction:column;gap:12px;padding:4px 0}
+.msg{max-width:91%;padding:13px 14px;border-radius:17px;font-size:14px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,#245fd0,#6241c6);border-bottom-right-radius:5px}
+.msg.ai{align-self:flex-start;background:#141e33;border:1px solid #2a3a59;border-bottom-left-radius:5px}
+.msghead{font-size:10px;color:#90b9ff;margin-bottom:5px;font-weight:800}
+.msgtools{display:flex;gap:12px;margin-top:8px}
+.msgtools button{border:0;background:transparent;color:#a9bad8;padding:0;font-size:12px}
+.empty{text-align:center;color:var(--muted);padding:50px 10px;line-height:1.8}
+.composer{position:fixed;bottom:66px;left:0;right:0;padding:10px 14px 12px;background:linear-gradient(0deg,#080b16 78%,#080b1600);z-index:4}
+.composeinner{max-width:730px;margin:auto;border:1px solid #35496e;background:#121b2e;border-radius:21px;padding:9px;box-shadow:0 0 30px #0005}
+#prompt{width:100%;resize:none;min-height:43px;max-height:120px;background:transparent;border:0;outline:none;color:white;padding:10px;font-size:14px}
+.composebottom{display:flex;align-items:center;justify-content:space-between;padding:3px 3px 2px 10px;color:#8596b6;font-size:10px}
+.send{height:43px;width:45px;border:0;border-radius:14px;color:white;font-size:21px;background:linear-gradient(135deg,#398cff,#8955ff);box-shadow:0 0 18px #4688ff30}
+.send:disabled{opacity:.5}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:6;height:66px;display:flex;justify-content:center;background:#0b1020f5;border-top:1px solid #253451;backdrop-filter:blur(18px);padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;max-width:150px;background:transparent;border:0;color:#8292b0;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.nav button span{font-size:19px}
+.nav button.active{color:#7bb1ff}
+.pageTitle{font-size:24px;margin:8px 0}
+.sub{font-size:12px;color:var(--muted);line-height:1.7}
+.item{padding:14px;border:1px solid var(--line);border-radius:15px;background:var(--panel);margin:10px 0;overflow-wrap:anywhere}
+.item button{background:#202d47;color:#dce8ff;border:0;border-radius:9px;padding:8px;margin:8px 5px 0 0;font-size:12px}
+.danger{color:#ff9caa!important}
+.settingrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:15px 0;border-bottom:1px solid #ffffff12}
+.hidden{display:none!important}
+@media(min-width:600px){main{padding:24px}.hero{padding:38px 10px 30px}.hero h1{font-size:35px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">A</div>
+  <div class="brand">
+    <h2>ADRIX <span style="color:#78aaff">AI</span></h2>
+    <p>Your personal AI assistant</p>
+    <div class="status">✦ AI ASSISTANT</div>
+  </div>
+  <button class="headbtn" id="newBtn">＋ New Chat</button>
+</header>
+
+<main>
+<section id="homePage">
+  <div class="hero" id="hero">
+    <div class="robot">🤖</div>
+    <div class="eyebrow">YOUR INTELLIGENT PARTNER</div>
+    <h1>नमस्ते! मैं ADRIX हूँ</h1>
+    <p>आज मैं आपकी क्या मदद कर सकता हूँ? कोई भी सवाल पूछें और नए विचारों की शुरुआत करें।</p>
+  </div>
+  <div class="sectiontitle" id="shortcutTitle">✦ आप क्या करना चाहेंगे?</div>
+  <div class="shortcuts" id="shortcuts">
+    <button class="shortcut" data-prompt="मुझे पढ़ाई में मदद करो"><span class="ico">🎓</span><strong>पढ़ाई में मदद</strong><small>सीखें और समझें</small></button>
+    <button class="shortcut" data-prompt="मुझे कुछ नए क्रिएटिव आइडिया दो"><span class="ico">💡</span><strong>नए आइडिया</strong><small>कल्पना को उड़ान दें</small></button>
+    <button class="shortcut" data-prompt="मुझे एक छोटा सा प्रोग्राम लिखने में मदद करो"><span class="ico">💻</span><strong>कोडिंग हेल्प</strong><small>कोड बनाएँ और सीखें</small></button>
+    <button class="shortcut" data-prompt="आज मुझे कुछ नया सिखाओ"><span class="ico">✨</span><strong>कुछ नया सीखें</strong><small>नई जानकारी पाएँ</small></button>
+  </div>
+  <div id="messages"></div>
+</section>
+
+<section id="historyPage" class="hidden">
+  <h1 class="pageTitle">🕘 चैट हिस्ट्री</h1>
+  <p class="sub">तुम्हारी पिछली बातचीत इसी ब्राउज़र में सेव होती है।</p>
+  <div id="historyList"></div>
+</section>
+
+<section id="favoritesPage" class="hidden">
+  <h1 class="pageTitle">⭐ पसंदीदा जवाब</h1>
+  <p class="sub">जिन जवाबों को पसंदीदा बनाया है, वे यहाँ मिलेंगे।</p>
+  <div id="favoritesList"></div>
+</section>
+
+<section id="settingsPage" class="hidden">
+  <h1 class="pageTitle">⚙️ सेटिंग्स</h1>
+  <p class="sub">ADRIX AI को अपनी पसंद के अनुसार इस्तेमाल करो।</p>
+  <div class="item">
+    <div class="settingrow"><span>ऐप का नाम</span><strong>ADRIX AI</strong></div>
+    <div class="settingrow"><span>थीम</span><strong>Dark Neon</strong></div>
+    <div class="settingrow"><span>चैट हिस्ट्री</span><strong>इस ब्राउज़र में</strong></div>
+    <div class="settingrow"><span>AI सर्वर</span><strong id="serverStatus">जाँच बाकी</strong></div>
+    <button id="testBtn">सर्वर जाँचें</button>
+    <button id="exportBtn">चैट डेटा डाउनलोड</button>
+    <button class="danger" id="clearBtn">सभी चैट मिटाएँ</button>
+  </div>
+  <p class="sub">API keys इस ऐप में कभी न डालें। सर्वर की गुप्त जानकारी सुरक्षित backend में ही रखें।</p>
+</section>
+</main>
+</div>
+
+<div class="composer" id="composer">
+  <form class="composeinner" id="form">
+    <textarea id="prompt" rows="1" placeholder="ADRIX से कुछ भी पूछें..." required></textarea>
+    <div class="composebottom">
+      <span>✦ Powered by ADRIX</span>
+      <button class="send" id="send" type="submit" aria-label="भेजें">➤</button>
+    </div>
+  </form>
+</div>
+
+<nav class="nav">
+  <button class="active" data-page="home"><span>⌂</span>होम</button>
+  <button data-page="history"><span>◷</span>History</button>
+  <button data-page="favorites"><span>☆</span>Favorites</button>
+  <button data-page="settings"><span>⚙</span>Settings</button>
+</nav>
+
+<script>
+"use strict";
+const API_URL="https://adrix-ai.onrender.com/chat";
+const $=id=>document.getElementById(id);
+const pageIds={home:"homePage",history:"historyPage",favorites:"favoritesPage",settings:"settingsPage"};
+let messages=[];
+let chats=[];
+let favorites=[];
+let chatId=Date.now().toString();
+
+try{chats=JSON.parse(localStorage.getItem("adrix_chats")||"[]");}catch(e){chats=[];}
+try{favorites=JSON.parse(localStorage.getItem("adrix_favorites")||"[]");}catch(e){favorites=[];}
+
+function save(){
+  try{
+    const existing=chats.findIndex(c=>c.id===chatId);
+    if(messages.length){
+      const item={id:chatId,title:messages.find(m=>m.role==="user")?.text?.slice(0,45)||"नई चैट",messages:messages.slice(),updated:Date.now()};
+      if(existing>=0)chats[existing]=item;else chats.unshift(item);
+      chats=chats.slice(0,50);
+    }
+    localStorage.setItem("adrix_chats",JSON.stringify(chats));
+    localStorage.setItem("adrix_favorites",JSON.stringify(favorites));
+  }catch(e){console.warn("Local storage unavailable",e);}
+}
+function switchPage(name){
+  Object.entries(pageIds).forEach(([key,id])=>$(id).classList.toggle("hidden",key!==name));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
+  $("composer").classList.toggle("hidden",name!=="home");
+  $("newBtn").classList.toggle("hidden",name!=="home");
+  if(name==="history")renderHistory();
+  if(name==="favorites")renderFavorites();
+}
+function renderMessages(){
+  const box=$("messages");box.replaceChildren();
+  messages.forEach((m,i)=>{
+    const el=document.createElement("div");el.className="msg "+(m.role==="user"?"user":"ai");
+    if(m.role==="assistant"){
+      const head=document.createElement("div");head.className="msghead";head.textContent="✦ ADRIX AI";el.appendChild(head);
+    }
+    const text=document.createElement("div");text.textContent=m.text;el.appendChild(text);
+    if(m.role==="assistant"){
+      const tools=document.createElement("div");tools.className="msgtools";
+      const copy=document.createElement("button");copy.textContent="▢ कॉपी";copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(m.text).then(()=>copy.textContent="✓ कॉपी हुआ").catch(()=>{});};
+      const fav=document.createElement("button");fav.textContent=favorites.some(f=>f.text===m.text)?"★ पसंदीदा":"☆ पसंदीदा";
+      fav.onclick=()=>{const idx=favorites.findIndex(f=>f.text===m.text);if(idx>=0)favorites.splice(idx,1);else favorites.unshift({text:m.text,date:Date.now()});save();renderMessages();};
+      tools.append(copy,fav);el.appendChild(tools);
+    }
+    box.appendChild(el);
+  });
+  const welcome=messages.length===0;
+  $("hero").classList.toggle("hidden",!welcome);
+  $("shortcuts").classList.toggle("hidden",!welcome);
+  $("shortcutTitle").classList.toggle("hidden",!welcome);
+  box.scrollIntoView({block:"end",behavior:"smooth"});
+}
+function renderHistory(){
+  const box=$("historyList");box.replaceChildren();
+  if(!chats.length){box.innerHTML='<div class="empty">अभी कोई चैट सेव नहीं है।<br>अपनी पहली बातचीत शुरू करो!</div>';return;}
+  chats.forEach(c=>{
+    const el=document.createElement("div");el.className="item";
+    const title=document.createElement("strong");title.textContent=c.title||"ADRIX चैट";
+    const meta=document.createElement("p");meta.className="sub";meta.textContent=(c.messages||[]).length+" संदेश";
+    const open=document.createElement("button");open.textContent="चैट खोलें";open.onclick=()=>{chatId=c.id;messages=c.messages||[];renderMessages();switchPage("home");};
+    const del=document.createElement("button");del.textContent="हटाएँ";del.onclick=()=>{chats=chats.filter(x=>x.id!==c.id);save();renderHistory();};
+    el.append(title,meta,open,del);box.appendChild(el);
+  });
+}
+function renderFavorites(){
+  const box=$("favoritesList");box.replaceChildren();
+  if(!favorites.length){box.innerHTML='<div class="empty">अभी कोई पसंदीदा जवाब नहीं।<br>चैट में ☆ दबाकर जवाब सेव करो।</div>';return;}
+  favorites.forEach((f,i)=>{
+    const el=document.createElement("div");el.className="item";
+    const t=document.createElement("div");t.textContent=f.text;
+    const b=document.createElement("button");b.textContent="हटाएँ";b.onclick=()=>{favorites.splice(i,1);save();renderFavorites();};
+    const c=document.createElement("button");c.textContent="कॉपी";c.onclick=()=>navigator.clipboard?.writeText(f.text);
+    el.append(t,c,b);box.appendChild(el);
+  });
+}
+function newChat(){
+  messages=[];chatId=Date.now().toString();renderMessages();switchPage("home");$("prompt").focus();
+}
+async function sendMessage(text){
+  text=text.trim();if(!text||$("send").disabled)return;
+  switchPage("home");messages.push({role:"user",text});renderMessages();save();
+  $("prompt").value="";$("send").disabled=true;
+  const wait={role:"assistant",text:"ADRIX जवाब तैयार कर रहा है…"};
+  messages.push(wait);renderMessages();
+  try{
+    const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text})});
+    let data={};try{data=await response.json();}catch(e){}
+    if(!response.ok){
+      if(response.status===429)throw new Error(data.error||"AI API की usage limit या billing में समस्या है।");
+      throw new Error(data.error||"सर्वर Error "+response.status);
+    }
+    wait.text=data.reply||"खाली जवाब मिला।";
+  }catch(e){
+    wait.text="AI से कनेक्ट नहीं हो पाया: "+e.message+"\n\nअपना इंटरनेट, Render Logs और AI API की स्थिति जाँचें।";
+  }finally{
+    $("send").disabled=false;renderMessages();save();$("prompt").focus();
+  }
+}
+$("form").addEventListener("submit",e=>{e.preventDefault();sendMessage($("prompt").value);});
+$("newBtn").onclick=newChat;
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>switchPage(b.dataset.page)));
+document.querySelectorAll("[data-prompt]").forEach(b=>b.addEventListener("click",()=>{ $("prompt").value=b.dataset.prompt;sendMessage(b.dataset.prompt);}));
+$("prompt").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("form").requestSubmit();}});
+$("testBtn").onclick=async()=>{
+  $("serverStatus").textContent="जाँच रहे हैं…";
+  try{const r=await fetch("https://adrix-ai.onrender.com/");$("serverStatus").textContent=r.ok?"सर्वर ऑनलाइन":"HTTP "+r.status;}
+  catch(e){$("serverStatus").textContent="कनेक्शन जाँच विफल";}
+};
+$("clearBtn").onclick=()=>{
+  if(confirm("क्या तुम सभी सेव की गई चैट मिटाना चाहते हो?")){
+    chats=[];messages=[];chatId=Date.now().toString();
+    try{localStorage.removeItem("adrix_chats");}catch(e){}
+    renderMessages();renderHistory();
+  }
+};
+$("exportBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify({chats,favorites},null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);const a=document.createElement("a");
+  a.href=url;a.download="adrix-chat-data.json";a.click();URL.revokeObjectURL(url);
+};
+renderMessages();
+</script>
+</body>
+</html>
