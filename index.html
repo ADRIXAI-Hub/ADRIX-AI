@@ -7,7 +7,9 @@
 <meta name="theme-color" content="#080d1b">
 <meta name="description" content="ADRIX AI - Study, Chat, Writing and Creator Tools in one place.">
 <title>ADRIX AI — Your AI Workspace</title>
-
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#111a30">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root {
   --bg:#080d1b; --panel:#111a2e; --card:#151f36;
@@ -786,5 +788,16 @@ renderHistory();
 renderFavorites();
 renderMessages();
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("ADRIX PWA ready"))
+      .catch((error) => {
+        console.error("PWA registration failed:", error);
+      });
+  });
+}
+  </script>
 </body>
 </html>
