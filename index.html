@@ -345,6 +345,12 @@ footer{text-align:center;font-size:10px;color:var(--muted);padding:15px}
     <h3>Privacy & data</h3>
     <p class="muted">Chat history और favorites इसी browser के localStorage में रखे जाते हैं। Browser data साफ करने पर ये हट सकते हैं। संवेदनशील जानकारी न लिखें।</p>
     <button class="secondary full" onclick="exportData()">Download my data</button>
+<button class="danger full" onclick="deleteAllLocalData()">
+  Delete all my data
+</button>
+
+<div class="output" id="privacyResult">
+  तुम्हारा डेटा इसी browser में सेव होता है।
   </div>
 </section>
 
@@ -805,6 +811,36 @@ const prompts = [
   ["🌍 Translation request","Translate the following text into simple Hindi and preserve its meaning:"],
   ["📅 Study planner","Help me create a realistic weekly study timetable with breaks and revision."]
 ];
+function deleteAllLocalData() {
+  const confirmed = confirm(
+    "क्या तुम सभी saved chats, Favorites और theme preference मिटाना चाहते हो? यह कार्रवाई वापस नहीं की जा सकती।"
+  );
+
+  if (!confirmed) return;
+
+  chats = [];
+  favorites = [];
+  currentChatId = null;
+
+  try {
+    localStorage.removeItem(STORE.chats);
+    localStorage.removeItem(STORE.favorites);
+    localStorage.removeItem(STORE.theme);
+
+    document.body.classList.remove("light");
+
+    renderHistory();
+    renderFavorites();
+    renderMessages();
+
+    document.getElementById("privacyResult").textContent =
+      "इस browser में सेव chats, Favorites और theme preference मिटा दिए गए हैं।";
+
+  } catch (_) {
+    document.getElementById("privacyResult").textContent =
+      "डेटा मिटाने में समस्या हुई। Browser storage settings जाँचें।";
+  }
+}
 function renderPrompts() {
   const list = document.getElementById("promptList");
   if (!list) return;
