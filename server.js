@@ -76,12 +76,21 @@ app.post("/chat", async (req, res) => {
         "x-goog-api-key": API_KEY
       },
       body: JSON.stringify({
-        contents: [
-          {
-            role: "user",
-            parts
-          }
-        ]
+     contents: [
+  {
+    role: "user",
+    parts: [
+      {
+        text: "Answer briefly and directly. Use simple Hindi or Hinglish when appropriate. Avoid unnecessary explanations.\n\n" + message
+      },
+      ...parts.filter(p => !p.text)
+    ]
+  }
+],
+generationConfig: {
+  maxOutputTokens: 512,
+  temperature: 0.5
+}
       })
     });
 
