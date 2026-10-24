@@ -3,15 +3,21 @@ import express from "express";
 import cors from "cors";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
+const PORT = process.env.PORT || 10000;
+const API_KEY = process.env.GEMINI_API_KEY;
+const MODEL = (process.env.GEMINI_MODEL || "gemini-2.5-flash")
+  .replace(/^models\//, "")
+  .trim();
+
 app.get("/", (req, res) => {
   res.json({
     app: "ADRIX AI",
-    status: "Backend is running"
+    status: "online",
+    message: "ADRIX AI backend is running"
   });
 });
 
@@ -21,107 +27,96 @@ app.get("/health", (req, res) => {
 
 app.post("/chat", async (req, res) => {
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
+    if (!API_KEY) {
       return res.status(500).json({
-        error: "GEMINI_API_KEY is not configured"
+        error: "GEMINI_API_KEY is missing in Render Environment."
       });
     }
 
-    const message =
-      req.body.message ||
-      req.body.prompt ||
-      req.body.text;
+    const message = String(
+      req.body?.message ??
+      req.body?.prompt ??
+      req.body?.text ??
+      ""
+    ).trim();
 
-    if (!message || typeof message !== "string") {
+    if (!message) {
       return res.status(400).json({
-        error: "Please send a message"
+        error: "Please enter a message."
       });
     }
 
     const parts = [{ text: message }];
 
-    const image = req.body.image;
+    // Optional image support when the frontend sends a data URL.
+    const image = req.body?.image;
 
-    if (typeof image === "string" && image.startsWith("data:")) {
+    if (typeof image === "string" && image.startsWith("data:image/")) {
       const match = image.match(
-        /^data:(image\/(?:png|jpeg|webp));base64,([\s\S]+)$/
+        /^data:(image\/[a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=\s]+)$/
       );
 
       if (match) {
         parts.push({
           inline_data: {
             mime_type: match[1],
-            data: match[2]
+            data: match[2].replace(/\s/g, "")
           }
         });
       }
     }
 
-    const model = (
-  process.env.GEMINI_MODEL || "gemini-2.5-flash"
-).replace(/^models\//, "").trim();
-const response = await fetch(url, {
-const url =
-  `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": apiKey
-        },
-        body: JSON.stringify({
-          contents: [{
+    const url =
+      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": API_KEY
+      },
+      body: JSON.stringify({
+        contents: [
+          {
             role: "user",
             parts
-          }],
-          systemInstruction: {
-            parts: [{
-              text: "You are ADRIX AI, a helpful assistant. Reply clearly in the language used by the user."
-            }]
           }
-        })
-      }
-    );
+        ]
+      })
+    });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error(
-        "Gemini API error:",
-        response.status,
-        data.error?.message || "Unknown error"
-      );
+      console.error("Gemini API error:", response.status, data);
 
       return res.status(502).json({
-        error: data.error?.message || "Gemini API request failed"
+        error:
+          data?.error?.message ||
+          `Gemini API request failed (${response.status}).`
       });
     }
 
-    const reply = data.candidates?.[0]?.content?.parts
-      ?.map(part => part.text || "")
+    const reply = (data.candidates?.[0]?.content?.parts || [])
+      .map((part) => part.text || "")
       .join("")
       .trim();
 
     if (!reply) {
       return res.status(502).json({
-        error: "Gemini returned an empty response"
+        error: "Gemini returned no text. Please try another message."
       });
     }
 
     return res.json({ reply });
-
   } catch (error) {
-    console.error("Server error:", error.message);
+    console.error("ADRIX AI server error:", error);
 
     return res.status(500).json({
       error: "Server error. Please try again."
     });
   }
 });
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`ADRIX AI server running on port ${PORT}`);
