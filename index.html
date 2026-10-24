@@ -135,6 +135,9 @@ textarea{resize:vertical;min-height:120px;line-height:1.55}
   min-height:43px;max-height:120px;border:0;background:transparent;
   padding:10px;resize:vertical
 }
+<button class="secondary" id="voiceBtn"
+        aria-label="बोलकर सवाल पूछें"
+        onclick="startVoiceInput()">🎙️</button>
 .chat-compose button{min-width:45px;min-height:43px}
 .status{font-size:11px;color:var(--muted);margin:8px 2px}
 .empty{text-align:center;padding:30px 12px;color:var(--muted);font-size:13px}
@@ -466,6 +469,11 @@ function renderMessages() {
       fav.className = "mini";
       fav.textContent = isFavorite(msg.content) ? "★ Saved" : "☆ Favorite";
       fav.onclick = () => toggleFavorite(msg.content);
+const speak = document.createElement("button");
+speak.className = "mini";
+speak.textContent = "🔊 सुनें";
+speak.onclick = () => speakReply(msg.content);
+actions.appendChild(speak);
       actions.append(copy, fav);
       wrap.appendChild(actions);
     }
@@ -491,7 +499,50 @@ async function sendMessage() {
   const input = document.getElementById("chatInput");
   const text = input.value.trim();
   if (!text) { input.focus(); return; }
+// Voice input: supported browsers only
+function startVoiceInput() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  if (!SpeechRecognition) {
+    alert("Voice typing इस browser में उपलब्ध नहीं है। Keyboard का mic इस्तेमाल करें।");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "hi-IN";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.onresult = event => {
+    const transcript = event.results[0][0].transcript;
+    const input = document.getElementById("chatInput");
+    input.value = (input.value + " " + transcript).trim();
+    input.focus();
+  };
+
+  recognition.onerror = () => {
+    alert("Voice input नहीं चला। Microphone permission और internet जाँचें।");
+  };
+
+  recognition.start();
+}
+
+// Read an AI response aloud
+function speakReply(text) {
+  if (!("speechSynthesis" in window)) {
+    alert("इस browser में text-to-speech उपलब्ध नहीं है।");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = /[\u0900-\u097F]/.test(text) ? "hi-IN" : "en-US";
+  utterance.rate = 1;
+
+  window.speechSynthesis.speak(utterance);
+}
   const chat = ensureChat();
   chat.messages.push({role:"user",content:text});
   if (chat.title === "नई चैट") chat.title = text.slice(0,42);
