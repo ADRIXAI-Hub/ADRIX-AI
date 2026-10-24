@@ -1,5 +1,6 @@
-const express = require("express");
-const cors = require("cors");
+
+import express from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -41,12 +42,11 @@ app.post("/chat", async (req, res) => {
 
     const parts = [{ text: message }];
 
-    // Optional image support for data URLs
     const image = req.body.image;
 
     if (typeof image === "string" && image.startsWith("data:")) {
       const match = image.match(
-        /^data:(image\/(?:png|jpeg|webp|gif));base64,([\s\S]+)$/
+        /^data:(image\/(?:png|jpeg|webp));base64,([\s\S]+)$/
       );
 
       if (match) {
@@ -59,8 +59,7 @@ app.post("/chat", async (req, res) => {
       }
     }
 
-    const model =
-      process.env.GEMINI_MODEL || "gemini-3.8-flash";
+    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
@@ -71,12 +70,10 @@ app.post("/chat", async (req, res) => {
           "x-goog-api-key": apiKey
         },
         body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts
-            }
-          ],
+          contents: [{
+            role: "user",
+            parts
+          }],
           systemInstruction: {
             parts: [{
               text: "You are ADRIX AI, a helpful assistant. Reply clearly in the language used by the user."
@@ -95,16 +92,15 @@ app.post("/chat", async (req, res) => {
         data.error?.message || "Unknown error"
       );
 
-      return res.status(response.status).json({
+      return res.status(502).json({
         error: data.error?.message || "Gemini API request failed"
       });
     }
 
-    const reply =
-      data.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
-        .join("")
-        .trim();
+    const reply = data.candidates?.[0]?.content?.parts
+      ?.map(part => part.text || "")
+      .join("")
+      .trim();
 
     if (!reply) {
       return res.status(502).json({
@@ -126,5 +122,3 @@ app.post("/chat", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`ADRIX AI server running on port ${PORT}`);
 });
-
-
