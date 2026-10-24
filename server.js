@@ -62,7 +62,7 @@ app.post("/chat", async (req, res) => {
     const model = (
   process.env.GEMINI_MODEL || "gemini-2.5-flash"
 ).replace(/^models\//, "").trim();
-
+const response = await fetch(url, {
 const url =
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
       {
