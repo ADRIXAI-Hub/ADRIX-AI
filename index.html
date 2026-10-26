@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#050b18">
 <title>ADRIX AI — Your Intelligent AI</title>
 <style>
-:root{
+:root{!
   --bg:#050b18;--panel:#0b1730;--panel2:#0d2040;
   --blue:#087cff;--cyan:#00d9ff;--text:#edf5ff;
   --muted:#91a9ca;--border:#173d70;--danger:#ff4565;
@@ -539,5 +539,106 @@ $("message").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.p
 $("backendurl").value=localStorage.getItem("adrix_backend")||DEFAULT_API;
 renderRecent();
 </script>
+  
+<div id="adrix-auth" style="max-width:440px;margin:24px auto;padding:20px;background:#0b1730;color:white;border:1px solid #173d70;border-radius:18px;font-family:system-ui">
+  <h2>ADRIX AI — Login</h2>
+  <p id="auth-status">अपना अकाउंट बनाओ या Login करो।</p>
+
+  <label>Email</label>
+  <input id="auth-email" type="email" placeholder="अपना Email लिखो"
+    style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0;background:#050b18;color:white;border:1px solid #24466e;border-radius:10px">
+
+  <label>Password</label>
+  <input id="auth-password" type="password" placeholder="कम से कम 6 अक्षर"
+    style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0;background:#050b18;color:white;border:1px solid #24466e;border-radius:10px">
+
+  <button id="auth-signup" style="width:100%;padding:12px;margin:5px 0">नया अकाउंट बनाओ</button>
+  <button id="auth-login" style="width:100%;padding:12px;margin:5px 0">Login</button>
+  <button id="auth-verify" style="width:100%;padding:12px;margin:5px 0">Verification Email दोबारा भेजो</button>
+  <button id="auth-reset" style="width:100%;padding:12px;margin:5px 0">Password भूल गए?</button>
+  <button id="auth-logout" style="width:100%;padding:12px;margin:5px 0">Logout</button>
+</div>
+
+<script type="module">
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword,
+  signInWithEmailAndPassword, sendEmailVerification,
+  sendPasswordResetEmail, signOut, onAuthStateChanged, reload
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyASM_FNiosOEMtctTepZcf_u",
+  authDomain: "adrix-ai-af9cc.fribaseapp.com",
+  projectId: "adrix-ai-af9cc",
+  storageBucket: "adrix-ai-af9cc.firebasestronge.app",
+  messagingSenderId: "606975263655",
+  appId: "1:606975263655:web:ade0509"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const el = id => document.getElementById(id);
+const email = () => el("auth-email").value.trim();
+const password = () => el("auth-password").value;
+
+function message(text) {
+  el("auth-status").textContent = text;
+}
+
+async function run(action) {
+  try { await action(); }
+  catch (e) { message("समस्या: " + e.message); }
+}
+
+el("auth-signup").onclick = () => run(async () => {
+  const result = await createUserWithEmailAndPassword(auth,email(),password());
+  await sendEmailVerification(result.user);
+  message("अकाउंट बन गया। Email में आए verification लिंक को खोलो।");
+});
+
+el("auth-login").onclick = () => run(async () => {
+  const result = await signInWithEmailAndPassword(auth,email(),password());
+  await reload(result.user);
+  message(result.user.emailVerified
+    ? "Email verified है।"
+    : "पहले अपने Email में verification लिंक खोलो।");
+});
+
+el("auth-verify").onclick = () => run(async () => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("पहले Login करो।");
+  await reload(user);
+  if (user.emailVerified) {
+    message("Email पहले से verified है।");
+    return;
+  }
+  await sendEmailVerification(user);
+  message("Verification Email दोबारा भेज दिया गया।");
+});
+
+el("auth-reset").onclick = () => run(async () => {
+  if (!email()) throw new Error("पहले अपना Email लिखो।");
+  await sendPasswordResetEmail(auth,email());
+  message("यदि अकाउंट मौजूद है, तो password reset निर्देश भेज दिए गए हैं।");
+});
+
+el("auth-logout").onclick = () => run(async () => {
+  await signOut(auth);
+  message("Logout हो गया।");
+});
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    message(user.emailVerified
+      ? "Login हो गया। Email verified है।"
+      : "Login हो गया, लेकिन Email verification अभी बाकी है।");
+  }
+});
+</script>
+</body>
+</html>
+
 </body>
 </html>
