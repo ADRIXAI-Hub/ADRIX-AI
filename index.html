@@ -1,644 +1,3877 @@
-
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#050b18">
 <title>ADRIX AI — Your Intelligent AI</title>
+
 <style>
-:root{!
-  --bg:#050b18;--panel:#0b1730;--panel2:#0d2040;
-  --blue:#087cff;--cyan:#00d9ff;--text:#edf5ff;
-  --muted:#91a9ca;--border:#173d70;--danger:#ff4565;
+:root{
+  --bg:#050b18;
+  --panel:#0b1730;
+  --panel2:#0d2040;
+  --blue:#087cff;
+  --cyan:#00d9ff;
+  --text:#edf5ff;
+  --muted:#91a9ca;
+  --border:#173d70;
+  --danger:#ff4565;
+  --green:#40efad;
 }
+
 *{box-sizing:border-box}
-body{
-  margin:0;background:radial-gradient(ellipse at 50% -20%,#12366a 0%,var(--bg) 58%);
-  color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;
-  min-height:100dvh;
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#050b18;
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;
 }
+
+body{
+  background:
+    radial-gradient(ellipse at 50% -20%,#12366a 0%,#050b18 58%);
+}
+
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan)}
-.app{max-width:650px;margin:auto;min-height:100dvh;padding-bottom:88px}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible{
+  outline:2px solid var(--cyan);
+}
+
+/* ================= LOGIN ================= */
+
+#auth-screen{
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:
+    radial-gradient(circle at 50% 0%,#123b70 0%,#050b18 52%);
+}
+
+.auth-card{
+  width:100%;
+  max-width:430px;
+  padding:25px;
+  border:1px solid #174b83;
+  border-radius:28px;
+  background:
+    linear-gradient(145deg,#0c1f3c,#071126 70%);
+  box-shadow:
+    0 20px 70px #0008,
+    inset 0 1px #ffffff0b;
+}
+
+.auth-logo{
+  width:78px;
+  height:78px;
+  margin:0 auto 15px;
+  display:grid;
+  place-items:center;
+  border-radius:24px;
+  font-size:38px;
+  font-weight:900;
+  font-style:italic;
+  background:linear-gradient(145deg,#42eaff,#087cff 55%,#1739a6);
+  box-shadow:0 0 35px #087cff70;
+}
+
+.auth-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+  margin:0;
+}
+
+.auth-title span{color:var(--cyan)}
+
+.auth-sub{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:1px;
+  margin:6px 0 24px;
+}
+
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  padding:5px;
+  background:#061125;
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:17px;
+}
+
+.auth-tab{
+  border:0;
+  border-radius:10px;
+  padding:10px;
+  background:transparent;
+  color:var(--muted);
+}
+
+.auth-tab.active{
+  background:#10366a;
+  color:white;
+}
+
+.auth-field{
+  width:100%;
+  padding:14px;
+  margin-top:7px;
+  margin-bottom:13px;
+  border:1px solid #24466e;
+  border-radius:13px;
+  background:#050e20;
+  color:white;
+}
+
+.auth-label{
+  color:#b9cbea;
+  font-size:12px;
+}
+
+.auth-primary{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px;
+  color:white;
+  font-weight:800;
+  background:linear-gradient(100deg,#0768f6,#078eff,#00b7e9);
+  box-shadow:0 6px 20px #007bff35;
+}
+
+.auth-secondary{
+  width:100%;
+  margin-top:9px;
+  padding:12px;
+  border-radius:12px;
+  color:#dceaff;
+  background:#0b2140;
+  border:1px solid #244d7b;
+}
+
+.auth-link{
+  width:100%;
+  margin-top:12px;
+  border:0;
+  background:transparent;
+  color:#5ddfff;
+  font-size:12px;
+}
+
+.auth-message{
+  min-height:22px;
+  margin:12px 0 0;
+  text-align:center;
+  color:#9eb7d9;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.auth-note{
+  margin-top:17px;
+  padding:10px;
+  border:1px solid #173b64;
+  border-radius:12px;
+  color:#829bbb;
+  font-size:10px;
+  line-height:1.5;
+}
+
+/* ================= APP ================= */
+
+#app-shell{
+  display:none;
+}
+
+.app{
+  max-width:650px;
+  margin:auto;
+  min-height:100dvh;
+  padding-bottom:88px;
+}
+
 header{
-  position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;
-  padding:13px 16px;background:#061023ed;backdrop-filter:blur(18px);
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 16px;
+  background:#061023ed;
+  backdrop-filter:blur(18px);
   border-bottom:1px solid #16365c;
 }
+
 .brandmark{
-  width:46px;height:46px;border-radius:15px;display:grid;place-items:center;
-  font-size:25px;font-weight:900;font-style:italic;color:white;
+  width:46px;
+  height:46px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  font-weight:900;
+  font-style:italic;
+  color:white;
   background:linear-gradient(145deg,#38e8ff,#087cff 55%,#1739a6);
   box-shadow:0 0 24px #087cff65;
 }
-.brand{font-size:22px;font-weight:850;letter-spacing:.5px}
-.brand span{color:var(--cyan)}
-.sub{font-size:11px;color:var(--muted);letter-spacing:1.5px}
-.header-right{margin-left:auto;display:flex;gap:8px}
-.iconbtn{
-  width:40px;height:40px;border:1px solid var(--border);border-radius:13px;
-  color:var(--text);background:var(--panel);font-size:18px;
+
+.brand{
+  font-size:22px;
+  font-weight:850;
+  letter-spacing:.5px;
 }
+
+.brand span{color:var(--cyan)}
+
+.sub{
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:1.5px;
+}
+
+.header-right{
+  margin-left:auto;
+  display:flex;
+  gap:8px;
+}
+
+.iconbtn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  color:var(--text);
+  background:var(--panel);
+  font-size:18px;
+}
+
 main{padding:17px}
+
 .page{display:none}
-.page.active{display:block;animation:appear .22s ease}
-@keyframes appear{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
-.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:2px;font-weight:800}
-h1{font-size:29px;line-height:1.25;margin:8px 0}
+.page.active{
+  display:block;
+  animation:appear .22s ease;
+}
+
+@keyframes appear{
+  from{opacity:.3;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  color:var(--cyan);
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+
+h1{
+  font-size:29px;
+  line-height:1.25;
+  margin:8px 0;
+}
+
 p{line-height:1.65}
+
 .muted{color:var(--muted)}
+
 .hero{
-  border:1px solid #1456a0;border-radius:24px;padding:20px;
+  border:1px solid #1456a0;
+  border-radius:24px;
+  padding:20px;
   background:linear-gradient(135deg,#0b2850,#09172e 65%,#071126);
   box-shadow:inset 0 1px #ffffff0c,0 12px 35px #0003;
-  position:relative;overflow:hidden;
+  position:relative;
+  overflow:hidden;
 }
-.hero:after{
-  content:"";position:absolute;width:180px;height:180px;right:-90px;top:-80px;
-  border-radius:50%;background:#0788ff24;filter:blur(4px);pointer-events:none;
+
+.hero-top{
+  display:flex;
+  gap:13px;
+  align-items:center;
 }
-.hero-top{display:flex;gap:13px;align-items:center}
+
 .orb{
-  width:68px;height:68px;flex-shrink:0;border-radius:22px;
-  display:grid;place-items:center;font-size:32px;
+  width:68px;
+  height:68px;
+  flex-shrink:0;
+  border-radius:22px;
+  display:grid;
+  place-items:center;
+  font-size:32px;
   background:radial-gradient(circle at 35% 25%,#42eaff,#0868eb 52%,#071b4a);
   box-shadow:0 0 28px #087cff66;
 }
+
 .hero h1{font-size:25px}
-.hero p{margin:7px 0 0;color:#b5c9e9;font-size:14px}
-.status{display:flex;align-items:center;gap:6px;color:#a5fbd5;font-size:11px;margin-top:17px}
-.dot{width:7px;height:7px;background:#40efad;border-radius:50%;box-shadow:0 0 10px #40efad}
-.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:23px 0 12px}
-.sectionhead h2{font-size:16px;margin:0}
-.sectionhead small{color:var(--muted)}
-.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hero p{
+  margin:7px 0 0;
+  color:#b5c9e9;
+  font-size:14px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#a5fbd5;
+  font-size:11px;
+  margin-top:17px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  background:#40efad;
+  border-radius:50%;
+  box-shadow:0 0 10px #40efad;
+}
+
+.sectionhead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:23px 0 12px;
+}
+
+.sectionhead h2{
+  font-size:16px;
+  margin:0;
+}
+
+.tools{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
 .tool{
-  min-height:108px;text-align:left;color:var(--text);padding:14px;
-  border:1px solid var(--border);border-radius:19px;
+  min-height:108px;
+  text-align:left;
+  color:var(--text);
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:19px;
   background:linear-gradient(145deg,#102749,#09172d);
   transition:transform .15s,border-color .15s;
 }
+
 .tool:active{transform:scale(.98)}
 .tool:hover{border-color:#078cff}
+
 .toolicon{
-  width:38px;height:38px;display:grid;place-items:center;border-radius:12px;
-  background:linear-gradient(145deg,#1169e8,#083574);font-size:19px;margin-bottom:10px;
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:linear-gradient(145deg,#1169e8,#083574);
+  font-size:19px;
+  margin-bottom:10px;
 }
-.tool strong{display:block;font-size:14px}
-.tool small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.quickgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+
+.tool strong{
+  display:block;
+  font-size:14px;
+}
+
+.tool small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.quickgrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+
 .quick{
-  border:1px solid #174777;background:#091a34;color:#d9eaff;
-  border-radius:13px;padding:11px 8px;font-size:12px;
+  border:1px solid #174777;
+  background:#091a34;
+  color:#d9eaff;
+  border-radius:13px;
+  padding:11px 8px;
+  font-size:12px;
 }
+
 .panel{
   background:linear-gradient(145deg,#0c1d38,#081327);
-  border:1px solid var(--border);border-radius:19px;padding:15px;margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:15px;
+  margin-bottom:12px;
 }
+
 .field{
-  width:100%;border:1px solid #24466e;border-radius:13px;
-  background:#050e20;color:white;padding:13px;outline:none;
+  width:100%;
+  border:1px solid #24466e;
+  border-radius:13px;
+  background:#050e20;
+  color:white;
+  padding:13px;
+  outline:none;
 }
-textarea.field{resize:vertical;min-height:115px}
+
+textarea.field{
+  resize:vertical;
+  min-height:115px;
+}
+
 .primary{
-  border:0;border-radius:13px;padding:13px 17px;color:white;font-weight:750;
+  border:0;
+  border-radius:13px;
+  padding:13px 17px;
+  color:white;
+  font-weight:750;
   background:linear-gradient(100deg,#0768f6,#078eff,#00b7e9);
   box-shadow:0 5px 18px #007bff28;
 }
+
 .secondary{
-  background:#0c2241;color:#dbeaff;border:1px solid #244d7b;
-  border-radius:12px;padding:10px 12px;
+  background:#0c2241;
+  color:#dbeaff;
+  border:1px solid #244d7b;
+  border-radius:12px;
+  padding:10px 12px;
 }
-.danger{background:#351426;border-color:#71304b;color:#ff9cb1}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.row>*{min-width:0}
-.chatbox{display:flex;flex-direction:column;gap:12px;margin:14px 0}
+
+.danger{
+  background:#351426;
+  border-color:#71304b;
+  color:#ff9cb1;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.chatbox{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin:14px 0;
+}
+
 .bubble{
-  max-width:91%;padding:12px 14px;border-radius:17px;
-  white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;font-size:14px;
+  max-width:91%;
+  padding:12px 14px;
+  border-radius:17px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  line-height:1.65;
+  font-size:14px;
 }
-.user{align-self:flex-end;background:linear-gradient(120deg,#0646a0,#086ee9);border-bottom-right-radius:5px}
-.ai{align-self:flex-start;background:#0d203d;border:1px solid #183d67;border-bottom-left-radius:5px}
+
+.user{
+  align-self:flex-end;
+  background:linear-gradient(120deg,#0646a0,#086ee9);
+  border-bottom-right-radius:5px;
+}
+
+.ai{
+  align-self:flex-start;
+  background:#0d203d;
+  border:1px solid #183d67;
+  border-bottom-left-radius:5px;
+}
+
 .chatcomposer{
-  position:sticky;bottom:76px;background:#071226ed;padding:10px;
-  border:1px solid #1a4678;border-radius:18px;backdrop-filter:blur(16px);
+  position:sticky;
+  bottom:76px;
+  background:#071226ed;
+  padding:10px;
+  border:1px solid #1a4678;
+  border-radius:18px;
+  backdrop-filter:blur(16px);
 }
-.chatcomposer textarea{min-height:48px;max-height:140px;resize:vertical;border:0;background:transparent;padding:8px;color:white;width:100%;outline:none}
-.composerbottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.smallbtn{border:1px solid var(--border);background:#0c2140;color:white;border-radius:11px;padding:9px 12px}
+
+.chatcomposer textarea{
+  min-height:48px;
+  max-height:140px;
+  resize:vertical;
+  border:0;
+  background:transparent;
+  padding:8px;
+  color:white;
+  width:100%;
+  outline:none;
+}
+
+.composerbottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.smallbtn{
+  border:1px solid var(--border);
+  background:#0c2140;
+  color:white;
+  border-radius:11px;
+  padding:9px 12px;
+}
+
 .bottomnav{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:650px;
-  display:grid;grid-template-columns:repeat(5,1fr);gap:3px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));
-  background:#061022f5;border-top:1px solid #16375d;backdrop-filter:blur(20px);z-index:8;
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:650px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:3px;
+  padding:8px 5px calc(8px + env(safe-area-inset-bottom));
+  background:#061022f5;
+  border-top:1px solid #16375d;
+  backdrop-filter:blur(20px);
+  z-index:8;
 }
-.navbtn{background:transparent;border:0;color:#819bbc;padding:6px 1px;font-size:10px}
-.navbtn span{display:block;font-size:20px;margin-bottom:4px}
+
+.navbtn{
+  background:transparent;
+  border:0;
+  color:#819bbc;
+  padding:6px 1px;
+  font-size:10px;
+}
+
+.navbtn span{
+  display:block;
+  font-size:20px;
+  margin-bottom:4px;
+}
+
 .navbtn.active{color:#43caff}
-.navbtn.active span{filter:drop-shadow(0 0 7px #078cff)}
-.listitem{padding:13px 0;border-bottom:1px solid #17304f;overflow-wrap:anywhere}
+
+.listitem{
+  padding:13px 0;
+  border-bottom:1px solid #17304f;
+  overflow-wrap:anywhere;
+}
+
 .listitem:last-child{border-bottom:0}
-.listitem strong{display:block;font-size:13px}
-.listitem small{display:block;color:var(--muted);margin-top:4px}
-.listactions{display:flex;gap:6px;margin-top:8px}
-.listactions button{font-size:11px}
-.badge{font-size:10px;color:#5ce6ff;border:1px solid #1b5b88;border-radius:20px;padding:4px 8px}
-.empty{text-align:center;padding:30px 10px;color:var(--muted)}
-.result{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;font-size:14px}
-.toast{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);background:#12294b;border:1px solid #2363a1;padding:11px 16px;border-radius:12px;z-index:20;display:none;max-width:90%;font-size:13px}
-footer{text-align:center;color:#526b8e;font-size:10px;padding:20px}
-@media(min-width:520px){main{padding:23px}.tools{grid-template-columns:repeat(3,minmax(0,1fr))}.hero h1{font-size:28px}}
+
+.listitem strong{
+  display:block;
+  font-size:13px;
+}
+
+.listitem small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.listactions{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.badge{
+  font-size:10px;
+  color:#5ce6ff;
+  border:1px solid #1b5b88;
+  border-radius:20px;
+  padding:4px 8px;
+}
+
+.empty{
+  text-align:center;
+  padding:30px 10px;
+  color:var(--muted);
+}
+
+.result{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.toast{
+  position:fixed;
+  bottom:95px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#12294b;
+  border:1px solid #2363a1;
+  padding:11px 16px;
+  border-radius:12px;
+  z-index:20;
+  display:none;
+  max-width:90%;
+  font-size:13px;
+}
+
+footer{
+  text-align:center;
+  color:#526b8e;
+  font-size:10px;
+  padding:20px;
+}
+
+@media(min-width:520px){
+  main{padding:23px}
+  .tools{
+    grid-template-columns:repeat(3,minmax(0,1fr))
+  }
+  .hero h1{font-size:28px}
+}
 </style>
 </head>
+
 <body>
-<div class="app">
-<header>
-  <div class="brandmark">A✦</div>
-  <div><div class="brand">ADRIX <span>AI</span></div><div class="sub">YOUR INTELLIGENT AI</div></div>
-  <div class="header-right">
-    <button class="iconbtn" onclick="showPage('history')" aria-label="History">◷</button>
-    <button class="iconbtn" onclick="showPage('settings')" aria-label="Settings">⚙</button>
+
+<!-- ================= AUTH SCREEN ================= -->
+
+<div id="auth-screen">
+
+  <div class="auth-card">
+
+    <div class="auth-logo">A✦</div>
+
+    <h1 class="auth-title">ADRIX <span>AI</span></h1>
+
+    <div class="auth-sub">
+      YOUR INTELLIGENT AI
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login">
+        Login
+      </button>
+
+      <button class="auth-tab" id="tab-signup">
+        Sign Up
+      </button>
+    </div>
+
+    <label class="auth-label">Email</label>
+
+    <input
+      id="auth-email"
+      class="auth-field"
+      type="email"
+      autocomplete="email"
+      placeholder="अपना Email लिखो"
+    >
+
+    <label class="auth-label">Password</label>
+
+    <input
+      id="auth-password"
+      class="auth-field"
+      type="password"
+      autocomplete="current-password"
+      placeholder="कम से कम 6 अक्षर"
+    >
+
+    <button
+      class="auth-primary"
+      id="auth-main"
+    >
+      Login करें
+    </button>
+
+    <button
+      class="auth-secondary"
+      id="auth-verify"
+    >
+      Verification Email दोबारा भेजें
+    </button>
+
+    <button
+      class="auth-link"
+      id="auth-reset"
+    >
+      Password भूल गए?
+    </button>
+
+    <p class="auth-message" id="auth-status">
+      अपने ADRIX AI अकाउंट में Login करें।
+    </p>
+
+    <div class="auth-note">
+      🔒 आपकी Login जानकारी Firebase Authentication द्वारा संभाली जाती है।
+      अपनी password या secret API key किसी के साथ share न करें।
+    </div>
+
   </div>
+</div>
+
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="app-shell">
+
+<div class="app">
+
+<header>
+
+  <div class="brandmark">A✦</div>
+
+  <div>
+    <div class="brand">
+      ADRIX <span>AI</span>
+    </div>
+
+    <div class="sub">
+      YOUR INTELLIGENT AI
+    </div>
+  </div>
+
+  <div class="header-right">
+
+    <button
+      class="iconbtn"
+      onclick="showPage('history')"
+      aria-label="History"
+    >◷</button>
+
+    <button
+      class="iconbtn"
+      onclick="showPage('settings')"
+      aria-label="Settings"
+    >⚙</button>
+
+  </div>
+
 </header>
 
+
 <main>
+
+<!-- HOME -->
+
 <section id="home" class="page active">
+
   <div class="hero">
-    <div class="eyebrow">✦ YOUR PERSONAL AI ASSISTANT</div>
-    <div class="hero-top">
-      <div class="orb">✦</div>
-      <div><h1>नमस्ते! 👋<br>आज क्या करना है?</h1><p>पूछो, सीखो, लिखो और नए ideas बनाओ।</p></div>
+
+    <div class="eyebrow">
+      ✦ YOUR PERSONAL AI ASSISTANT
     </div>
-    <div class="status"><span class="dot"></span> ADRIX AI • स्मार्ट असिस्टेंट</div>
+
+    <div class="hero-top">
+
+      <div class="orb">✦</div>
+
+      <div>
+        <h1>
+          नमस्ते! 👋<br>
+          आज क्या करना है?
+        </h1>
+
+        <p>
+          पूछो, सीखो, लिखो और नए ideas बनाओ।
+        </p>
+      </div>
+
+    </div>
+
+    <div class="status">
+      <span class="dot"></span>
+      ADRIX AI • स्मार्ट असिस्टेंट
+    </div>
+
   </div>
 
-  <div class="sectionhead"><h2>तुम्हारे AI टूल्स</h2><span class="badge">8 TOOLS</span></div>
+
+  <div class="sectionhead">
+
+    <h2>तुम्हारे AI टूल्स</h2>
+
+    <span class="badge">
+      6 TOOLS
+    </span>
+
+  </div>
+
+
   <div class="tools">
-    <button class="tool" onclick="openChat()"><span class="toolicon">✧</span><strong>AI Chat</strong><small>कुछ भी पूछो</small></button>
-    <button class="tool" onclick="showPage('voice')"><span class="toolicon">🎙</span><strong>Voice AI</strong><small>बोलकर पूछो</small></button>
-    <button class="tool" onclick="showPage('image')"><span class="toolicon">▧</span><strong>Image AI</strong><small>फोटो के बारे में पूछो</small></button>
-    <button class="tool" onclick="showPage('writing')"><span class="toolicon">✎</span><strong>Writing AI</strong><small>लिखो और सुधारो</small></button>
-    <button class="tool" onclick="showPage('study')"><span class="toolicon">▤</span><strong>Study AI</strong><small>पढ़ाई में मदद</small></button>
-    <button class="tool" onclick="showPage('code')"><span class="toolicon">‹/›</span><strong>Code AI</strong><small>कोड समझो</small></button>
+
+    <button class="tool" onclick="openChat()">
+      <span class="toolicon">✧</span>
+      <strong>AI Chat</strong>
+      <small>कुछ भी पूछो</small>
+    </button>
+
+    <button class="tool" onclick="showPage('voice')">
+      <span class="toolicon">🎙</span>
+      <strong>Voice AI</strong>
+      <small>बोलकर पूछो</small>
+    </button>
+
+    <button class="tool" onclick="showPage('image')">
+      <span class="toolicon">▧</span>
+      <strong>Image AI</strong>
+      <small>फोटो के बारे में पूछो</small>
+    </button>
+
+    <button class="tool" onclick="showPage('writing')">
+      <span class="toolicon">✎</span>
+      <strong>Writing AI</strong>
+      <small>लिखो और सुधारो</small>
+    </button>
+
+    <button class="tool" onclick="showPage('study')">
+      <span class="toolicon">▤</span>
+      <strong>Study AI</strong>
+      <small>पढ़ाई में मदद</small>
+    </button>
+
+    <button class="tool" onclick="showPage('code')">
+      <span class="toolicon">&lt;/&gt;</span>
+      <strong>Code AI</strong>
+      <small>कोड समझो</small>
+    </button>
+
   </div>
 
-  <div class="sectionhead"><h2>Quick Tools</h2><small>एक टैप में</small></div>
-  <div class="quickgrid">
-    <button class="quick" onclick="quickPrompt('Translate: ')">🌐 Translate</button>
-    <button class="quick" onclick="quickPrompt('इसका सारांश बनाओ: ')">▤ Summarize</button>
-    <button class="quick" onclick="quickPrompt('इस गणित के सवाल को step-by-step हल करो: ')">∑ Math Solve</button>
-    <button class="quick" onclick="quickPrompt('मुझे इस विषय पर ideas दो: ')">✦ Idea Generator</button>
+
+  <div class="sectionhead">
+    <h2>Quick Tools</h2>
+    <small>एक टैप में</small>
   </div>
-  <div class="sectionhead"><h2>हाल की चैट</h2><button class="smallbtn" onclick="showPage('history')">सभी देखें →</button></div>
-  <div class="panel" id="recent"><div class="empty">अभी कोई चैट नहीं। अपनी पहली बातचीत शुरू करो!</div></div>
+
+
+  <div class="quickgrid">
+
+    <button class="quick"
+      onclick="quickPrompt('Translate: ')">
+      🌐 Translate
+    </button>
+
+    <button class="quick"
+      onclick="quickPrompt('इसका सारांश बनाओ: ')">
+      ▤ Summarize
+    </button>
+
+    <button class="quick"
+      onclick="quickPrompt('इस गणित के सवाल को step-by-step हल करो: ')">
+      ∑ Math Solve
+    </button>
+
+    <button class="quick"
+      onclick="quickPrompt('मुझे इस विषय पर ideas दो: ')">
+      ✦ Idea Generator
+    </button>
+
+  </div>
+
+
+  <div class="sectionhead">
+
+    <h2>हाल की चैट</h2>
+
+    <button
+      class="smallbtn"
+      onclick="showPage('history')"
+    >
+      सभी देखें →
+    </button>
+
+  </div>
+
+
+  <div class="panel" id="recent">
+    <div class="empty">
+      अभी कोई चैट नहीं।
+      अपनी पहली बातचीत शुरू करो!
+    </div>
+  </div>
+
 </section>
+
+
+<!-- CHAT -->
 
 <section id="chat" class="page">
-  <div class="eyebrow">ADRIX INTELLIGENCE</div><h1>AI Chat <span class="badge">CHAT</span></h1>
-  <p class="muted">हिंदी या English में अपना सवाल लिखो।</p>
+
+  <div class="eyebrow">
+    ADRIX INTELLIGENCE
+  </div>
+
+  <h1>
+    AI Chat <span class="badge">CHAT</span>
+  </h1>
+
+  <p class="muted">
+    हिंदी या English में अपना सवाल लिखो।
+  </p>
+
   <div class="row" style="margin:14px 0">
-    <button class="secondary" onclick="newChat()">＋ नई चैट</button>
-    <button class="secondary" onclick="showPage('favorites')">♡ Favorites</button>
+
+    <button class="secondary" onclick="newChat()">
+      ＋ नई चैट
+    </button>
+
+    <button
+      class="secondary"
+      onclick="showPage('favorites')"
+    >
+      ♡ Favorites
+    </button>
+
   </div>
+
+
   <div id="chatbox" class="chatbox"></div>
+
+
   <div class="chatcomposer">
-    <textarea id="message" placeholder="ADRIX से कुछ भी पूछो..." rows="2"></textarea>
+
+    <textarea
+      id="message"
+      placeholder="ADRIX से कुछ भी पूछो..."
+      rows="2"
+    ></textarea>
+
     <div class="composerbottom">
+
       <div class="row">
-        <button class="smallbtn" onclick="document.getElementById('chatfile').click()">＋ फोटो</button>
-        <input id="chatfile" type="file" accept="image/png,image/jpeg,image/webp" hidden onchange="selectImage(this)">
-        <button class="smallbtn" onclick="startVoice('message')">🎙</button>
+
+        <button
+          class="smallbtn"
+          onclick="document.getElementById('chatfile').click()"
+        >
+          ＋ फोटो
+        </button>
+
+        <input
+          id="chatfile"
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          hidden
+          onchange="selectImage(this)"
+        >
+
+        <button
+          class="smallbtn"
+          onclick="startVoice('message')"
+        >
+          🎙
+        </button>
+
       </div>
-      <button class="primary" id="send" onclick="sendMessage()">भेजें ➤</button>
+
+      <button
+        class="primary"
+        id="send"
+        onclick="sendMessage()"
+      >
+        भेजें ➤
+      </button>
+
     </div>
-    <div id="selectedImage" class="muted" style="font-size:11px"></div>
+
+    <div
+      id="selectedImage"
+      class="muted"
+      style="font-size:11px"
+    ></div>
+
   </div>
-  <p class="muted" style="font-size:11px">AI के जवाब गलत हो सकते हैं। ज़रूरी जानकारी जाँच लें।</p>
+
+  <p class="muted" style="font-size:11px">
+    AI के जवाब गलत हो सकते हैं। ज़रूरी जानकारी जाँच लें।
+  </p>
+
 </section>
+
+
+<!-- VOICE -->
 
 <section id="voice" class="page">
-  <div class="eyebrow">SPEECH ASSISTANT</div><h1>Voice AI 🎙</h1>
-  <div class="panel" style="text-align:center;padding:28px 15px">
-    <div class="orb" style="margin:auto;width:100px;height:100px;border-radius:50%;font-size:40px">🎙</div>
-    <h2 id="voiceStatus">बोलकर पूछो</h2>
-    <p class="muted">माइक्रोफोन दबाओ और अपना सवाल बोलो।</p>
-    <button class="primary" onclick="startVoice('voicePrompt')">🎙 बोलना शुरू करें</button>
+
+  <div class="eyebrow">
+    SPEECH ASSISTANT
   </div>
-  <textarea id="voicePrompt" class="field" placeholder="तुम्हारा बोला हुआ सवाल यहाँ आएगा..." rows="4"></textarea>
-  <button class="primary" style="width:100%;margin-top:12px" onclick="sendVoicePrompt()">AI से जवाब लें →</button>
-  <div class="panel" style="margin-top:15px"><strong>Voice Reply</strong><p class="muted">AI का जवाब मिलने पर उसे सुनने के लिए chat में 🔊 दबा सकते हो।</p></div>
+
+  <h1>Voice AI 🎙</h1>
+
+  <div
+    class="panel"
+    style="text-align:center;padding:28px 15px"
+  >
+
+    <div
+      class="orb"
+      style="margin:auto;width:100px;height:100px;border-radius:50%;font-size:40px"
+    >
+      🎙
+    </div>
+
+    <h2 id="voiceStatus">
+      बोलकर पूछो
+    </h2>
+
+    <p class="muted">
+      माइक्रोफोन दबाओ और अपना सवाल बोलो।
+    </p>
+
+    <button
+      class="primary"
+      onclick="startVoice('voicePrompt')"
+    >
+      🎙 बोलना शुरू करें
+    </button>
+
+  </div>
+
+  <textarea
+    id="voicePrompt"
+    class="field"
+    placeholder="तुम्हारा बोला हुआ सवाल यहाँ आएगा..."
+    rows="4"
+  ></textarea>
+
+  <button
+    class="primary"
+    style="width:100%;margin-top:12px"
+    onclick="sendVoicePrompt()"
+  >
+    AI से जवाब लें →
+  </button>
+
 </section>
+
+
+<!-- IMAGE -->
 
 <section id="image" class="page">
-  <div class="eyebrow">VISUAL ASSISTANT</div><h1>Image AI ▧</h1>
-  <div class="panel">
-    <p class="muted">फोटो चुनो और पूछो कि उसमें क्या है। Image support backend/model पर निर्भर करता है।</p>
-    <input class="field" id="imagefile" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewImage(this)">
-    <img id="imagepreview" alt="Selected image preview" style="display:none;max-width:100%;max-height:300px;border-radius:14px;margin-top:12px">
-    <textarea id="imagequestion" class="field" style="margin-top:12px" placeholder="इस फोटो में क्या है? इसे समझाओ..." rows="3"></textarea>
-    <button class="primary" style="width:100%;margin-top:12px" onclick="askAboutImage()">✦ फोटो के बारे में पूछें</button>
-  </div>
-  <div class="panel"><div id="imageresult" class="result muted">तुम्हारा जवाब यहाँ दिखाई देगा।</div></div>
-</section>
 
-<section id="writing" class="page">
-  <div class="eyebrow">CONTENT STUDIO</div><h1>Writing AI ✎</h1>
-  <div class="panel">
-    <label for="writingmode" class="muted">क्या करना चाहते हो?</label>
-    <select id="writingmode" class="field" style="margin-top:7px">
-      <option value="लिखो">नया लिखो</option><option value="सुधारो">लिखा हुआ सुधारो</option>
-      <option value="सारांश बनाओ">सारांश बनाओ</option><option value="ईमेल लिखो">ईमेल लिखो</option>
-      <option value="YouTube script बनाओ">YouTube Script</option>
-    </select>
-    <textarea id="writingtext" class="field" style="margin-top:12px" placeholder="अपना topic या text लिखो..." rows="6"></textarea>
-    <div class="row" style="justify-content:space-between;margin-top:8px"><small class="muted" id="wordcount">0 शब्द</small><button class="secondary" onclick="startVoice('writingtext')">🎙 बोलकर लिखें</button></div>
-    <button class="primary" style="width:100%;margin-top:12px" onclick="generateWriting()">✦ Generate</button>
+  <div class="eyebrow">
+    VISUAL ASSISTANT
   </div>
-  <div class="panel"><div id="writingresult" class="result muted">तैयार किया गया text यहाँ आएगा।</div><button class="secondary" onclick="copyText('writingresult')">कॉपी करें</button></div>
-</section>
 
-<section id="study" class="page">
-  <div class="eyebrow">SMART LEARNING</div><h1>Study AI ▤</h1>
+  <h1>Image AI ▧</h1>
+
   <div class="panel">
-    <label class="muted" for="studyclass">कक्षा</label>
-    <select id="studyclass" class="field" style="margin-top:7px"><option>Class 10</option><option>Class 9</option><option>Class 8</option><option>Other</option></select>
-    <label class="muted" for="studysubject" style="display:block;margin-top:12px">Subject</label>
-    <select id="studysubject" class="field" style="margin-top:7px"><option>Maths</option><option>Science</option><option>SST</option><option>English</option><option>Hindi</option><option>IT</option></select>
-    <textarea id="studytext" class="field" style="margin-top:12px" placeholder="Chapter, question या topic लिखो..." rows="4"></textarea>
-    <div class="quickgrid" style="margin-top:10px">
-      <button class="quick" onclick="studyTask('आसान भाषा में समझाओ')">📘 समझाओ</button>
-      <button class="quick" onclick="studyTask('महत्वपूर्ण प्रश्न और उत्तर दो')">❓ Important Q&A</button>
-      <button class="quick" onclick="studyTask('Short notes बनाओ')">📝 Short Notes</button>
-      <button class="quick" onclick="studyTask('Practice questions बनाओ, उत्तर अंत में दो')">🎯 Practice</button>
+
+    <p class="muted">
+      फोटो चुनो और पूछो कि उसमें क्या है।
+      Image support backend/model पर निर्भर करता है।
+    </p>
+
+    <input
+      class="field"
+      id="imagefile"
+      type="file"
+      accept="image/png,image/jpeg,image/webp"
+      onchange="previewImage(this)"
+    >
+
+    <img
+      id="imagepreview"
+      alt="Selected image preview"
+      style="display:none;max-width:100%;max-height:300px;border-radius:14px;margin-top:12px"
+    >
+
+    <textarea
+      id="imagequestion"
+      class="field"
+      style="margin-top:12px"
+      placeholder="इस फोटो में क्या है? इसे समझाओ..."
+      rows="3"
+    ></textarea>
+
+    <button
+      class="primary"
+      style="width:100%;margin-top:12px"
+      onclick="askAboutImage()"
+    >
+      ✦ फोटो के बारे में पूछें
+    </button>
+
+  </div>
+
+  <div class="panel">
+    <div id="imageresult" class="result muted">
+      तुम्हारा जवाब यहाँ दिखाई देगा।
     </div>
   </div>
-  <div class="panel"><div id="studyresult" class="result muted">पढ़ाई का जवाब यहाँ आएगा।</div><button class="secondary" onclick="copyText('studyresult')">कॉपी करें</button></div>
+
 </section>
+
+
+<!-- WRITING -->
+
+<section id="writing" class="page">
+
+  <div class="eyebrow">
+    CONTENT STUDIO
+  </div>
+
+  <h1>Writing AI ✎</h1>
+
+  <div class="panel">
+
+    <label for="writingmode" class="muted">
+      क्या करना चाहते हो?
+    </label>
+
+    <select
+      id="writingmode"
+      class="field"
+      style="margin-top:7px"
+    >
+      <option value="लिखो">नया लिखो</option>
+      <option value="सुधारो">लिखा हुआ सुधारो</option>
+      <option value="सारांश बनाओ">सारांश बनाओ</option>
+      <option value="ईमेल लिखो">ईमेल लिखो</option>
+      <option value="YouTube script बनाओ">YouTube Script</option>
+    </select>
+
+    <textarea
+      id="writingtext"
+      class="field"
+      style="margin-top:12px"
+      placeholder="अपना topic या text लिखो..."
+      rows="6"
+    ></textarea>
+
+    <div
+      class="row"
+      style="justify-content:space-between;margin-top:8px"
+    >
+      <small class="muted" id="wordcount">
+        0 शब्द
+      </small>
+
+      <button
+        class="secondary"
+        onclick="startVoice('writingtext')"
+      >
+        🎙 बोलकर लिखें
+      </button>
+    </div>
+
+    <button
+      class="primary"
+      style="width:100%;margin-top:12px"
+      onclick="generateWriting()"
+    >
+      ✦ Generate
+    </button>
+
+  </div>
+
+  <div class="panel">
+
+    <div
+      id="writingresult"
+      class="result muted"
+    >
+      तैयार किया गया text यहाँ आएगा।
+    </div>
+
+    <button
+      class="secondary"
+      onclick="copyText('writingresult')"
+    >
+      कॉपी करें
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- STUDY -->
+
+<section id="study" class="page">
+
+  <div class="eyebrow">
+    SMART LEARNING
+  </div>
+
+  <h1>Study AI ▤</h1>
+
+  <div class="panel">
+
+    <label class="muted">
+      कक्षा
+    </label>
+
+    <select
+      id="studyclass"
+      class="field"
+      style="margin-top:7px"
+    >
+      <option>Class 10</option>
+      <option>Class 9</option>
+      <option>Class 8</option>
+      <option>Other</option>
+    </select>
+
+    <label
+      class="muted"
+      style="display:block;margin-top:12px"
+    >
+      Subject
+    </label>
+
+    <select
+      id="studysubject"
+      class="field"
+      style="margin-top:7px"
+    >
+      <option>Maths</option>
+      <option>Science</option>
+      <option>SST</option>
+      <option>English</option>
+      <option>Hindi</option>
+      <option>IT</option>
+    </select>
+
+    <textarea
+      id="studytext"
+      class="field"
+      style="margin-top:12px"
+      placeholder="Chapter, question या topic लिखो..."
+      rows="4"
+    ></textarea>
+
+    <div
+      class="quickgrid"
+      style="margin-top:10px"
+    >
+
+      <button
+        class="quick"
+        onclick="studyTask('आसान भाषा में समझाओ')"
+      >
+        📘 समझाओ
+      </button>
+
+      <button
+        class="quick"
+        onclick="studyTask('महत्वपूर्ण प्रश्न और उत्तर दो')"
+      >
+        ❓ Important Q&A
+      </button>
+
+      <button
+        class="quick"
+        onclick="studyTask('Short notes बनाओ')"
+      >
+        📝 Short Notes
+      </button>
+
+      <button
+        class="quick"
+        onclick="studyTask('Practice questions बनाओ, उत्तर अंत में दो')"
+      >
+        🎯 Practice
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <div
+      id="studyresult"
+      class="result muted"
+    >
+      पढ़ाई का जवाब यहाँ आएगा।
+    </div>
+
+    <button
+      class="secondary"
+      onclick="copyText('studyresult')"
+    >
+      कॉपी करें
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- CODE -->
 
 <section id="code" class="page">
-  <div class="eyebrow">DEVELOPER STUDIO</div><h1>Code AI ‹/›</h1>
-  <div class="panel">
-    <textarea id="codetext" class="field" placeholder="क्या बनाना है? उदाहरण: एक simple calculator का HTML code बनाओ..." rows="6"></textarea>
-    <button class="primary" style="width:100%;margin-top:12px" onclick="generateCode()">Code बनाओ →</button>
+
+  <div class="eyebrow">
+    DEVELOPER STUDIO
   </div>
-  <div class="panel"><div id="coderesult" class="result muted">Code यहाँ आएगा।</div><button class="secondary" onclick="copyText('coderesult')">कॉपी करें</button></div>
+
+  <h1>Code AI &lt;/&gt;</h1>
+
+  <div class="panel">
+
+    <textarea
+      id="codetext"
+      class="field"
+      placeholder="क्या बनाना है? उदाहरण: एक simple calculator का HTML code बनाओ..."
+      rows="6"
+    ></textarea>
+
+    <button
+      class="primary"
+      style="width:100%;margin-top:12px"
+      onclick="generateCode()"
+    >
+      Code बनाओ →
+    </button>
+
+  </div>
+
+  <div class="panel">
+
+    <div
+      id="coderesult"
+      class="result muted"
+    >
+      Code यहाँ आएगा।
+    </div>
+
+    <button
+      class="secondary"
+      onclick="copyText('coderesult')"
+    >
+      कॉपी करें
+    </button>
+
+  </div>
+
 </section>
+
+
+<!-- HISTORY -->
 
 <section id="history" class="page">
-  <div class="eyebrow">YOUR ACTIVITY</div><h1>इतिहास ◷</h1>
-  <div class="row" style="margin:15px 0"><button class="secondary" onclick="exportData()">↓ Export</button><button class="secondary danger" onclick="clearHistory()">History मिटाएँ</button></div>
-  <div class="panel" id="historylist"></div>
+
+  <div class="eyebrow">
+    YOUR ACTIVITY
+  </div>
+
+  <h1>इतिहास ◷</h1>
+
+  <div
+    class="row"
+    style="margin:15px 0"
+  >
+
+    <button
+      class="secondary"
+      onclick="exportData()"
+    >
+      ↓ Export
+    </button>
+
+    <button
+      class="secondary danger"
+      onclick="clearHistory()"
+    >
+      History मिटाएँ
+    </button>
+
+  </div>
+
+  <div
+    class="panel"
+    id="historylist"
+  ></div>
+
 </section>
+
+
+<!-- FAVORITES -->
 
 <section id="favorites" class="page">
-  <div class="eyebrow">SAVED ANSWERS</div><h1>Favorites ♡</h1>
-  <div class="panel" id="favoriteslist"></div>
+
+  <div class="eyebrow">
+    SAVED ANSWERS
+  </div>
+
+  <h1>Favorites ♡</h1>
+
+  <div
+    class="panel"
+    id="favoriteslist"
+  ></div>
+
 </section>
+
+
+<!-- SETTINGS -->
 
 <section id="settings" class="page">
-  <div class="eyebrow">PERSONALIZE YOUR AI</div><h1>Settings ⚙</h1>
-  <div class="panel">
-    <strong>ADRIX AI</strong><p class="muted">Your Intelligent AI • Mobile Edition</p>
-    <label class="muted" for="backendurl">Backend URL</label>
-    <input id="backendurl" class="field" style="margin-top:7px" placeholder="https://your-backend.onrender.com">
-    <p class="muted" style="font-size:11px">यह URL server.js वाले backend का है। यहाँ API key कभी मत डालना।</p>
-    <button class="primary" onclick="saveSettings()">Settings सेव करें</button>
+
+  <div class="eyebrow">
+    PERSONALIZE YOUR AI
   </div>
+
+  <h1>Settings ⚙</h1>
+
   <div class="panel">
+
+    <strong>ADRIX AI</strong>
+
+    <p class="muted">
+      Your Intelligent AI • Mobile Edition
+    </p>
+
+    <label
+      class="muted"
+      for="backendurl"
+    >
+      Backend URL
+    </label>
+
+    <input
+      id="backendurl"
+      class="field"
+      style="margin-top:7px"
+      placeholder="https://your-backend.onrender.com"
+    >
+
+    <p
+      class="muted"
+      style="font-size:11px"
+    >
+      यहाँ API key कभी मत डालना।
+    </p>
+
+    <button
+      class="primary"
+      onclick="saveSettings()"
+    >
+      Settings सेव करें
+    </button>
+
+  </div>
+
+
+  <div class="panel">
+
+    <strong>Account</strong>
+
+    <p
+      class="muted"
+      id="accountEmail"
+    >
+      Login account
+    </p>
+
+    <button
+      class="secondary danger"
+      onclick="logoutUser()"
+    >
+      🚪 Logout
+    </button>
+
+  </div>
+
+
+  <div class="panel">
+
     <strong>Privacy & Data</strong>
-    <p class="muted">Chats और favorites इस browser के local storage में सेव होते हैं। Backend को भेजे गए सवाल server तक जाते हैं।</p>
-    <button class="secondary" onclick="exportData()">डेटा Export करें</button>
-    <button class="secondary danger" style="margin-top:8px" onclick="deleteAllData()">सारा local data मिटाएँ</button>
+
+    <p class="muted">
+      Chats और favorites इस browser के local storage में सेव होते हैं।
+      Backend को भेजे गए सवाल server तक जाते हैं।
+    </p>
+
+    <button
+      class="secondary"
+      onclick="exportData()"
+    >
+      डेटा Export करें
+    </button>
+
+    <button
+      class="secondary danger"
+      style="margin-top:8px"
+      onclick="deleteAllData()"
+    >
+      सारा local data मिटाएँ
+    </button>
+
   </div>
-  <div class="panel"><strong>Connection</strong><p class="muted" id="connectionstatus">Backend अभी टेस्ट नहीं हुआ।</p><button class="secondary" onclick="testBackend()">Backend Test</button></div>
+
+
+  <div class="panel">
+
+    <strong>Connection</strong>
+
+    <p
+      class="muted"
+      id="connectionstatus"
+    >
+      Backend अभी टेस्ट नहीं हुआ।
+    </p>
+
+    <button
+      class="secondary"
+      onclick="testBackend()"
+    >
+      Backend Test
+    </button>
+
+  </div>
+
 </section>
 
-<footer>ADRIX AI • Made for learning, creating and exploring</footer>
+
+<footer>
+  ADRIX AI • Made for learning, creating and exploring
+</footer>
+
 </main>
 
+
 <nav class="bottomnav">
-  <button class="navbtn active" data-page="home" onclick="showPage('home')"><span>⌂</span>Home</button>
-  <button class="navbtn" data-page="chat" onclick="openChat()"><span>✧</span>Chat</button>
-  <button class="navbtn" data-page="history" onclick="showPage('history')"><span>◷</span>History</button>
-  <button class="navbtn" data-page="favorites" onclick="showPage('favorites')"><span>♡</span>Saved</button>
-  <button class="navbtn" data-page="settings" onclick="showPage('settings')"><span>⚙</span>Settings</button>
+
+  <button
+    class="navbtn active"
+    data-page="home"
+    onclick="showPage('home')"
+  >
+    <span>⌂</span>
+    Home
+  </button>
+
+  <button
+    class="navbtn"
+    data-page="chat"
+    onclick="openChat()"
+  >
+    <span>✧</span>
+    Chat
+  </button>
+
+  <button
+    class="navbtn"
+    data-page="history"
+    onclick="showPage('history')"
+  >
+    <span>◷</span>
+    History
+  </button>
+
+  <button
+    class="navbtn"
+    data-page="favorites"
+    onclick="showPage('favorites')"
+  >
+    <span>♡</span>
+    Saved
+  </button>
+
+  <button
+    class="navbtn"
+    data-page="settings"
+    onclick="showPage('settings')"
+  >
+    <span>⚙</span>
+    Settings
+  </button>
+
 </nav>
-<div class="toast" id="toast" role="status"></div>
+
+
+<div
+  class="toast"
+  id="toast"
+  role="status"
+></div>
+
+</div>
 </div>
 
-<script>
-/*
- ADRIX AI FRONTEND
- Backend endpoint expected: POST /chat
- Expected JSON response: { "reply": "AI response" }
- Optional image format: data URL.
- Never put your secret API key in this file.
-*/
-const DEFAULT_API = "https://adrix-ai.onrender.com";
-const $ = id => document.getElementById(id);
-const read = (key, fallback) => {
-  try { const v=localStorage.getItem(key); return v===null?fallback:JSON.parse(v); }
-  catch { return fallback; }
-};
-let chats = read("adrix_chats", []);
-let favorites = read("adrix_favorites", []);
-let currentId = null;
-let imageData = null;
-let busy = false;
 
-function saveChats(){try{localStorage.setItem("adrix_chats",JSON.stringify(chats))}catch{toast("Storage भर गया है। कुछ पुरानी चैट मिटाएँ।")}}
-function saveFavorites(){try{localStorage.setItem("adrix_favorites",JSON.stringify(favorites))}catch{toast("Favorites सेव नहीं हो सके।")}}
-function apiBase(){return (localStorage.getItem("adrix_backend")||DEFAULT_API).trim().replace(/\/+$/,"")}
-function toast(message){const t=$("toast");t.textContent=message;t.style.display="block";clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display="none",2600)}
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
-  document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
-  if(id==="history")renderHistory();
-  if(id==="favorites")renderFavorites();
-  if(id==="home")renderRecent();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-function newChat(){currentId=null;$("chatbox").innerHTML="";imageData=null;$("selectedImage").textContent="";$("message").value="";showPage("chat")}
-function openChat(){showPage("chat");if(!currentId && !$("chatbox").children.length) $("chatbox").innerHTML='<div class="bubble ai">नमस्ते! मैं ADRIX AI हूँ। आज मैं तुम्हारी क्या मदद करूँ?</div>'}
-function getCurrent(){
-  let c=chats.find(x=>x.id===currentId);
-  if(!c){c={id:Date.now().toString(),title:"नई चैट",updated:Date.now(),messages:[]};chats.unshift(c);currentId=c.id}
-  return c;
-}
-function appendBubble(role,text,extra={}){
-  const div=document.createElement("div");div.className="bubble "+(role==="user"?"user":"ai");
-  const body=document.createElement("div");body.textContent=text;div.appendChild(body);
-  if(role==="ai"){
-    const actions=document.createElement("div");actions.className="listactions";
-    const copy=document.createElement("button");copy.className="smallbtn";copy.textContent="कॉपी";
-    copy.onclick=()=>copyString(text);
-    const fav=document.createElement("button");fav.className="smallbtn";fav.textContent="♡ Save";
-    fav.onclick=()=>addFavorite(text);
-    const speak=document.createElement("button");speak.className="smallbtn";speak.textContent="🔊";
-    speak.onclick=()=>speakText(text);
-    actions.append(copy,fav,speak);div.appendChild(actions);
-  }
-  $("chatbox").appendChild(div);div.scrollIntoView({behavior:"smooth",block:"nearest"});
-}
-function renderMessages(){
-  $("chatbox").innerHTML="";
-  const c=chats.find(x=>x.id===currentId);
-  if(!c||!c.messages.length){appendBubble("ai","नमस्ते! मैं ADRIX AI हूँ। आज मैं तुम्हारी क्या मदद करूँ?");return}
-  c.messages.forEach(m=>appendBubble(m.role,m.text));
-}
-function quickPrompt(text){showPage("chat");$("message").value=text;$("message").focus()}
-async function sendMessage(){
-  if(busy)return;
-  const input=$("message"),text=input.value.trim();
-  if(!text&&!imageData){toast("पहले अपना सवाल लिखो या फोटो चुनो।");return}
-  const c=getCurrent();const img=imageData;
-  input.value="";imageData=null;$("selectedImage").textContent="";
-  c.messages.push({role:"user",text:text||"इस फोटो को समझाओ",image:img||null});
-  if(c.messages.length===1)c.title=(text||"फोटो").slice(0,45);
-  c.updated=Date.now();saveChats();
-  renderMessages();
-  await askBackend(text||"इस फोटो को समझाओ",img,c);
-}
-async function askBackend(prompt,image,c){
-  busy=true;$("send").disabled=true;$("send").textContent="रुकें…";
-  const wait=document.createElement("div");wait.className="bubble ai";wait.textContent="ADRIX सोच रहा है…";wait.id="waiting";
-  $("chatbox").appendChild(wait);
-  try{
-    const payload={message:prompt};
-    if(image)payload.image=image;
-    const response=await fetch(apiBase()+"/chat",{
-      method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)
-    });
-    const raw=await response.text();let data={};
-    try{data=JSON.parse(raw)}catch{}
-    if(!response.ok){
-      if(response.status===429)throw new Error("API quota खत्म है या billing की समस्या है (429)। Backend/model provider की quota settings जाँचें।");
-      if(response.status===401)throw new Error("Backend की API key गलत या missing है (401)।");
-      throw new Error(data.error||data.message||("Server error "+response.status));
-    }
-    const reply=data.reply||data.answer||data.output_text||data.text;
-    if(!reply)throw new Error("Backend से जवाब नहीं मिला। server.js का response format जाँचें।");
-    c.messages.push({role:"ai",text:String(reply)});c.updated=Date.now();saveChats();
-    wait.remove();renderMessages();renderRecent();
-  }catch(e){
-    wait.textContent="जवाब नहीं मिल पाया: "+e.message+"\n\nInternet, Render backend और API quota जाँचें।";
-    toast("AI connection में समस्या");
-  }finally{busy=false;$("send").disabled=false;$("send").textContent="भेजें ➤"}
-}
-function selectImage(input){
-  const file=input.files&&input.files[0];if(!file)return;
-  if(file.size>4*1024*1024){toast("4 MB से छोटी फोटो चुनें।");input.value="";return}
-  const reader=new FileReader();reader.onload=()=>{imageData=reader.result;$("selectedImage").textContent="फोटो चुनी गई: "+file.name};reader.readAsDataURL(file);
-}
-function previewImage(input){
-  const f=input.files&&input.files[0];if(!f)return;
-  if(f.size>4*1024*1024){toast("4 MB से छोटी फोटो चुनें।");input.value="";return}
-  const r=new FileReader();r.onload=()=>{$("imagepreview").src=r.result;$("imagepreview").style.display="block"};r.readAsDataURL(f);
-}
-async function askAboutImage(){
-  const file=$("imagefile").files[0];if(!file){toast("पहले फोटो चुनो।");return}
-  const question=$("imagequestion").value.trim()||"इस फोटो में क्या है?";
-  const reader=new FileReader();
-  reader.onload=async()=>{showPage("chat");imageData=reader.result;$("message").value=question;await sendMessage();$("imageresult").textContent="जवाब Chat स्क्रीन पर देखें।"};
-  reader.readAsDataURL(file);
-}
-function startVoice(target){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast("इस browser में speech recognition उपलब्ध नहीं है। Chrome में कोशिश करें।");return}
-  const rec=new SR();rec.lang="hi-IN";rec.interimResults=false;rec.maxAlternatives=1;
-  $("voiceStatus").textContent="सुन रहा हूँ…";
-  rec.onresult=e=>{const t=e.results[0][0].transcript;$(target).value=($(target).value+" "+t).trim();$("voiceStatus").textContent="सवाल सुन लिया!"};
-  rec.onerror=()=>{$("voiceStatus").textContent="आवाज़ नहीं मिली";toast("Microphone permission जाँचें।")};
-  rec.onend=()=>{if($("voiceStatus").textContent==="सुन रहा हूँ…")$("voiceStatus").textContent="बोलकर पूछो"};
-  try{rec.start()}catch{toast("Voice recognition अभी शुरू नहीं हो सका।")}
-}
-function sendVoicePrompt(){const t=$("voicePrompt").value.trim();if(!t){toast("पहले बोलकर सवाल रिकॉर्ड करो।");return}showPage("chat");$("message").value=t;sendMessage()}
-function speakText(text){
-  if(!("speechSynthesis" in window)){toast("इस browser में text-to-speech उपलब्ध नहीं है।");return}
-  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=/[\u0900-\u097F]/.test(text)?"hi-IN":"en-US";speechSynthesis.speak(u);
-}
-function copyString(text){
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(()=>toast("कॉपी हो गया")).catch(()=>fallbackCopy(text));
-  else fallbackCopy(text);
-}
-function fallbackCopy(text){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("कॉपी हो गया")}catch{toast("Text select करके कॉपी करें")}ta.remove()}
-function copyText(id){copyString($(id).textContent)}
-function addFavorite(text){
-  if(favorites.some(x=>x.text===text)){toast("यह पहले से Saved है।");return}
-  favorites.unshift({id:Date.now().toString(),text,created:Date.now()});saveFavorites();toast("Favorites में सेव हो गया");
-}
-function showResult(id,text){$(id).textContent=text;$(id).classList.remove("muted")}
-async function runTool(prompt,resultId){
-  if(!prompt.trim()){toast("पहले topic या text लिखो।");return}
-  showResult(resultId,"ADRIX जवाब तैयार कर रहा है…");
-  try{
-    const r=await fetch(apiBase()+"/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:prompt})});
-    const raw=await r.text();let d={};try{d=JSON.parse(raw)}catch{}
-    if(!r.ok)throw new Error(d.error||d.message||"Server error "+r.status);
-    const answer=d.reply||d.answer||d.output_text||d.text;
-    if(!answer)throw new Error("Backend ने reply field नहीं भेजी।");
-    showResult(resultId,String(answer));
-  }catch(e){showResult(resultId,"जवाब नहीं मिला: "+e.message)}
-}
-function generateWriting(){runTool($("writingmode").value+" निम्न text/topic पर हिंदी में जवाब दो:\n"+$("writingtext").value,"writingresult")}
-function studyTask(task){runTool("मैं "+$("studyclass").value+" का विद्यार्थी हूँ। Subject: "+$("studysubject").value+". Topic: "+$("studytext").value+". Task: "+task+". आसान हिंदी में समझाओ।","studyresult")}
-function generateCode(){runTool("इस request के लिए code और आसान explanation दो:\n"+$("codetext").value,"coderesult")}
-$("writingtext").addEventListener("input",()=>{$("wordcount").textContent=$("writingtext").value.trim()? $("writingtext").value.trim().split(/\s+/).length+" शब्द":"0 शब्द"});
-function renderHistory(){
-  const box=$("historylist");box.innerHTML="";
-  if(!chats.length){box.innerHTML='<div class="empty">अभी कोई इतिहास नहीं।</div>';return}
-  chats.forEach(c=>{
-    const item=document.createElement("div");item.className="listitem";
-    const title=document.createElement("strong");title.textContent=c.title||"Chat";
-    const meta=document.createElement("small");meta.textContent=new Date(c.updated).toLocaleString()+" • "+c.messages.length+" messages";
-    const actions=document.createElement("div");actions.className="listactions";
-    const open=document.createElement("button");open.className="secondary";open.textContent="खोलें";open.onclick=()=>{currentId=c.id;renderMessages();showPage("chat")};
-    const del=document.createElement("button");del.className="secondary danger";del.textContent="मिटाएँ";del.onclick=()=>{chats=chats.filter(x=>x.id!==c.id);saveChats();renderHistory()};
-    actions.append(open,del);item.append(title,meta,actions);box.appendChild(item);
-  });
-}
-function renderRecent(){
-  const box=$("recent");box.innerHTML="";
-  const recent=chats.slice(0,3);
-  if(!recent.length){box.innerHTML='<div class="empty">अभी कोई चैट नहीं। अपनी पहली बातचीत शुरू करो!</div>';return}
-  recent.forEach(c=>{const b=document.createElement("button");b.className="listitem";b.style.cssText="width:100%;text-align:left;background:transparent;color:inherit;border-top:0;border-left:0;border-right:0";b.textContent="◉ "+(c.title||"Chat")+" · "+new Date(c.updated).toLocaleDateString();b.onclick=()=>{currentId=c.id;renderMessages();showPage("chat")};box.appendChild(b)});
-}
-function renderFavorites(){
-  const box=$("favoriteslist");box.innerHTML="";
-  if(!favorites.length){box.innerHTML='<div class="empty">अभी कोई saved answer नहीं।</div>';return}
-  favorites.forEach(f=>{
-    const item=document.createElement("div");item.className="listitem";
-    const text=document.createElement("div");text.textContent=f.text.slice(0,450)+(f.text.length>450?"…":"");
-    const actions=document.createElement("div");actions.className="listactions";
-    const cp=document.createElement("button");cp.className="secondary";cp.textContent="कॉपी";cp.onclick=()=>copyString(f.text);
-    const rm=document.createElement("button");rm.className="secondary danger";rm.textContent="हटाएँ";rm.onclick=()=>{favorites=favorites.filter(x=>x.id!==f.id);saveFavorites();renderFavorites()};
-    actions.append(cp,rm);item.append(text,actions);box.appendChild(item);
-  });
-}
-function clearHistory(){if(!confirm("सारी local chat history मिटाएँ?"))return;chats=[];currentId=null;saveChats();renderHistory();renderRecent();toast("History मिट गई")}
-function deleteAllData(){if(!confirm("सभी local chats, favorites और settings मिटाएँ? यह वापस नहीं आएगा।"))return;["adrix_chats","adrix_favorites","adrix_backend"].forEach(k=>localStorage.removeItem(k));chats=[];favorites=[];currentId=null;$("backendurl").value=DEFAULT_API;renderHistory();renderFavorites();renderRecent();toast("Local data मिटा दिया गया।")}
-function exportData(){
-  const blob=new Blob([JSON.stringify({chats,favorites,exportedAt:new Date().toISOString()},null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="adrix-data.json";a.click();URL.revokeObjectURL(url);
-}
-function saveSettings(){
-  const url=$("backendurl").value.trim();
-  if(url&&!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url)){toast("HTTPS backend URL सही डालें।");return}
-  if(url)localStorage.setItem("adrix_backend",url);else localStorage.removeItem("adrix_backend");
-  toast("Settings सेव हो गईं।");testBackend();
-}
-async function testBackend(){
-  $("connectionstatus").textContent="Backend से संपर्क किया जा रहा है…";
-  try{
-    const r=await fetch(apiBase()+"/",{method:"GET"});
-    $("connectionstatus").textContent=r.ok?"Server reachable (HTTP "+r.status+"). Chat endpoint अलग से जाँचें।":"Server ने HTTP "+r.status+" लौटाया।";
-  }catch(e){$("connectionstatus").textContent="Connection नहीं हुआ। Backend sleeping, URL या CORS जाँचें।"}
-}
-$("message").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage()}});
-$("backendurl").value=localStorage.getItem("adrix_backend")||DEFAULT_API;
-renderRecent();
-</script>
-  
-<div id="adrix-auth" style="max-width:440px;margin:24px auto;padding:20px;background:#0b1730;color:white;border:1px solid #173d70;border-radius:18px;font-family:system-ui">
-  <h2>ADRIX AI — Login</h2>
-  <p id="auth-status">अपना अकाउंट बनाओ या Login करो।</p>
-
-  <label>Email</label>
-  <input id="auth-email" type="email" placeholder="अपना Email लिखो"
-    style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0;background:#050b18;color:white;border:1px solid #24466e;border-radius:10px">
-
-  <label>Password</label>
-  <input id="auth-password" type="password" placeholder="कम से कम 6 अक्षर"
-    style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0;background:#050b18;color:white;border:1px solid #24466e;border-radius:10px">
-
-  <button id="auth-signup" style="width:100%;padding:12px;margin:5px 0">नया अकाउंट बनाओ</button>
-  <button id="auth-login" style="width:100%;padding:12px;margin:5px 0">Login</button>
-  <button id="auth-verify" style="width:100%;padding:12px;margin:5px 0">Verification Email दोबारा भेजो</button>
-  <button id="auth-reset" style="width:100%;padding:12px;margin:5px 0">Password भूल गए?</button>
-  <button id="auth-logout" style="width:100%;padding:12px;margin:5px 0">Logout</button>
-</div>
+<!-- ================= FIREBASE ================= -->
 
 <script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
 import {
-  getAuth, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, sendEmailVerification,
-  sendPasswordResetEmail, signOut, onAuthStateChanged, reload
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signOut,
+  onAuthStateChanged,
+  reload
+}
+from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+
+/*
+====================================================
+ IMPORTANT
+====================================================
+
+नीचे अपनी Firebase Console वाली सही values डालो।
+
+अपनी API key यहाँ मुझे भेजने की जरूरत नहीं है।
+====================================================
+*/
 
 const firebaseConfig = {
-  apiKey: "AIzaSyASM_FNiosOEMtctTepZcf_u",
-  authDomain: "adrix-ai-af9cc.fribaseapp.com",
-  projectId: "adrix-ai-af9cc",
-  storageBucket: "adrix-ai-af9cc.firebasestronge.app",
-  messagingSenderId: "606975263655",
-  appId: "1:606975263655:web:ade0509"
+
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY_HERE",
+
+  authDomain:
+    "PASTE_YOUR_AUTH_DOMAIN_HERE",
+
+  projectId:
+    "PASTE_YOUR_PROJECT_ID_HERE",
+
+  storageBucket:
+    "PASTE_YOUR_STORAGE_BUCKET_HERE",
+
+  messagingSenderId:
+    "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+
+  appId:
+    "PASTE_YOUR_APP_ID_HERE"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const el = id => document.getElementById(id);
-const email = () => el("auth-email").value.trim();
-const password = () => el("auth-password").value;
 
-function message(text) {
-  el("auth-status").textContent = text;
+const firebaseApp =
+  initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(firebaseApp);
+
+
+const $auth = id =>
+  document.getElementById(id);
+
+
+let authMode = "login";
+
+
+function authMessage(text){
+
+  $auth("auth-status").textContent =
+    text;
+
 }
 
-async function run(action) {
-  try { await action(); }
-  catch (e) { message("समस्या: " + e.message); }
+
+function setAuthMode(mode){
+
+  authMode = mode;
+
+  const loginTab =
+    $auth("tab-login");
+
+  const signupTab =
+    $auth("tab-signup");
+
+  const main =
+    $auth("auth-main");
+
+  if(mode === "login"){
+
+    loginTab.classList.add("active");
+    signupTab.classList.remove("active");
+
+    main.textContent =
+      "Login करें";
+
+  }else{
+
+    signupTab.classList.add("active");
+    loginTab.classList.remove("active");
+
+    main.textContent =
+      "अकाउंट बनाओ";
+
+  }
+
+  authMessage(
+    mode === "login"
+    ? "अपने ADRIX AI अकाउंट में Login करें।"
+    : "नया ADRIX AI अकाउंट बनाओ।"
+  );
+
 }
 
-el("auth-signup").onclick = () => run(async () => {
-  const result = await createUserWithEmailAndPassword(auth,email(),password());
-  await sendEmailVerification(result.user);
-  message("अकाउंट बन गया। Email में आए verification लिंक को खोलो।");
-});
 
-el("auth-login").onclick = () => run(async () => {
-  const result = await signInWithEmailAndPassword(auth,email(),password());
-  await reload(result.user);
-  message(result.user.emailVerified
-    ? "Email verified है।"
-    : "पहले अपने Email में verification लिंक खोलो।");
-});
+$auth("tab-login").onclick =
+() => setAuthMode("login");
 
-el("auth-verify").onclick = () => run(async () => {
-  const user = auth.currentUser;
-  if (!user) throw new Error("पहले Login करो।");
-  await reload(user);
-  if (user.emailVerified) {
-    message("Email पहले से verified है।");
+
+$auth("tab-signup").onclick =
+() => setAuthMode("signup");
+
+
+async function authAction(){
+
+  const email =
+    $auth("auth-email").value.trim();
+
+  const password =
+    $auth("auth-password").value;
+
+  if(!email){
+
+    authMessage(
+      "अपना Email लिखो।"
+    );
+
     return;
+
   }
-  await sendEmailVerification(user);
-  message("Verification Email दोबारा भेज दिया गया।");
-});
 
-el("auth-reset").onclick = () => run(async () => {
-  if (!email()) throw new Error("पहले अपना Email लिखो।");
-  await sendPasswordResetEmail(auth,email());
-  message("यदि अकाउंट मौजूद है, तो password reset निर्देश भेज दिए गए हैं।");
-});
+  if(password.length < 6){
 
-el("auth-logout").onclick = () => run(async () => {
-  await signOut(auth);
-  message("Logout हो गया।");
-});
+    authMessage(
+      "Password कम से कम 6 अक्षर का होना चाहिए।"
+    );
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    message(user.emailVerified
-      ? "Login हो गया। Email verified है।"
-      : "Login हो गया, लेकिन Email verification अभी बाकी है।");
+    return;
+
   }
-});
+
+
+  try{
+
+    $auth("auth-main").disabled = true;
+
+    if(authMode === "signup"){
+
+      const result =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      await sendEmailVerification(
+        result.user
+      );
+
+      authMessage(
+        "अकाउंट बन गया। अपने Email में verification link खोलो।"
+      );
+
+    }else{
+
+      const result =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      await reload(result.user);
+
+      if(result.user.emailVerified){
+
+        authMessage(
+          "Login सफल। ADRIX AI खुल रहा है..."
+        );
+
+      }else{
+
+        authMessage(
+          "Login हुआ, लेकिन पहले Email verify करो।"
+        );
+
+        await signOut(auth);
+
+      }
+
+    }
+
+  }catch(error){
+
+    let msg =
+      error.message || "Login में समस्या हुई।";
+
+    if(error.code ===
+      "auth/invalid-credential"){
+
+      msg =
+        "Email या Password गलत है।";
+
+    }
+
+    if(error.code ===
+      "auth/email-already-in-use"){
+
+      msg =
+        "यह Email पहले से registered है। Login करो।";
+
+    }
+
+    if(error.code ===
+      "auth/invalid-email"){
+
+      msg =
+        "Email address सही नहीं है।";
+
+    }
+
+    authMessage(
+      "समस्या: " + msg
+    );
+
+  }finally{
+
+    $auth("auth-main").disabled = false;
+
+  }
+
+}
+
+
+$auth("auth-main").onclick =
+authAction;
+
+
+$auth("auth-verify").onclick =
+async () => {
+
+  try{
+
+    const user =
+      auth.currentUser;
+
+    if(!user){
+
+      authMessage(
+        "पहले Login करो।"
+      );
+
+      return;
+
+    }
+
+    await reload(user);
+
+    if(user.emailVerified){
+
+      authMessage(
+        "Email पहले से verified है।"
+      );
+
+      return;
+
+    }
+
+    await sendEmailVerification(
+      user
+    );
+
+    authMessage(
+      "Verification Email दोबारा भेज दिया गया।"
+    );
+
+  }catch(error){
+
+    authMessage(
+      "समस्या: " +
+      (error.message || "Email नहीं भेजा जा सका।")
+    );
+
+  }
+
+};
+
+
+$auth("auth-reset").onclick =
+async () => {
+
+  const email =
+    $auth("auth-email").value.trim();
+
+  if(!email){
+
+    authMessage(
+      "Password reset के लिए पहले Email लिखो।"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    await sendPasswordResetEmail(
+      auth,
+      email
+    );
+
+    authMessage(
+      "Password reset instructions Email पर भेज दिए गए हैं।"
+    );
+
+  }catch(error){
+
+    authMessage(
+      "समस्या: " +
+      (error.message || "Reset Email नहीं भेजा जा सका।")
+    );
+
+  }
+
+};
+
+
+window.logoutUser =
+async function(){
+
+  try{
+
+    await signOut(auth);
+
+  }catch(error){
+
+    alert(
+      "Logout में समस्या: " +
+      error.message
+    );
+
+  }
+
+};
+
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    if(user){
+
+      await reload(user);
+
+      if(user.emailVerified){
+
+        document.getElementById(
+          "auth-screen"
+        ).style.display = "none";
+
+        document.getElementById(
+          "app-shell"
+        ).style.display = "block";
+
+        const account =
+          document.getElementById(
+            "accountEmail"
+          );
+
+        if(account){
+
+          account.textContent =
+            "Logged in as: " + user.email;
+
+        }
+
+      }else{
+
+        document.getElementById(
+          "auth-screen"
+        ).style.display = "flex";
+
+        document.getElementById(
+          "app-shell"
+        ).style.display = "none";
+
+      }
+
+    }else{
+
+      document.getElementById(
+        "auth-screen"
+      ).style.display = "flex";
+
+      document.getElementById(
+        "app-shell"
+      ).style.display = "none";
+
+    }
+
+  }
+);
+
 </script>
-</body>
-</html>
+
+
+<!-- ================= ADRIX APP JAVASCRIPT ================= -->
+
+<script>
+
+const DEFAULT_API =
+  "https://adrix-ai.onrender.com";
+
+const $ =
+  id => document.getElementById(id);
+
+
+const read =
+  (key,fallback) => {
+
+    try{
+
+      const v =
+        localStorage.getItem(key);
+
+      return v === null
+        ? fallback
+        : JSON.parse(v);
+
+    }catch{
+
+      return fallback;
+
+    }
+
+  };
+
+
+let chats =
+  read("adrix_chats",[]);
+
+let favorites =
+  read("adrix_favorites",[]);
+
+let currentId =
+  null;
+
+let imageData =
+  null;
+
+let busy =
+  false;
+
+
+function saveChats(){
+
+  try{
+
+    localStorage.setItem(
+      "adrix_chats",
+      JSON.stringify(chats)
+    );
+
+  }catch{
+
+    toast(
+      "Storage भर गया है। कुछ पुरानी चैट मिटाएँ।"
+    );
+
+  }
+
+}
+
+
+function saveFavorites(){
+
+  try{
+
+    localStorage.setItem(
+      "adrix_favorites",
+      JSON.stringify(favorites)
+    );
+
+  }catch{
+
+    toast(
+      "Favorites सेव नहीं हो सके।"
+    );
+
+  }
+
+}
+
+
+function apiBase(){
+
+  return (
+    localStorage.getItem(
+      "adrix_backend"
+    ) || DEFAULT_API
+  )
+  .trim()
+  .replace(/\/+$/,"");
+
+}
+
+
+function toast(message){
+
+  const t =
+    $("toast");
+
+  t.textContent =
+    message;
+
+  t.style.display =
+    "block";
+
+  clearTimeout(
+    toast.timer
+  );
+
+  toast.timer =
+    setTimeout(
+      () => t.style.display="none",
+      2600
+    );
+
+}
+
+
+function showPage(id){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      p =>
+      p.classList.toggle(
+        "active",
+        p.id === id
+      )
+    );
+
+
+  document
+    .querySelectorAll(".navbtn")
+    .forEach(
+      b =>
+      b.classList.toggle(
+        "active",
+        b.dataset.page === id
+      )
+    );
+
+
+  if(id === "history")
+    renderHistory();
+
+  if(id === "favorites")
+    renderFavorites();
+
+  if(id === "home")
+    renderRecent();
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function newChat(){
+
+  currentId =
+    null;
+
+  $("chatbox").innerHTML =
+    "";
+
+  imageData =
+    null;
+
+  $("selectedImage").textContent =
+    "";
+
+  $("message").value =
+    "";
+
+  showPage("chat");
+
+}
+
+
+function openChat(){
+
+  showPage("chat");
+
+  if(
+    !currentId &&
+    !$("chatbox").children.length
+  ){
+
+    $("chatbox").innerHTML =
+      '<div class="bubble ai">नमस्ते! मैं ADRIX AI हूँ। आज मैं तुम्हारी क्या मदद करूँ?</div>';
+
+  }
+
+}
+
+
+function getCurrent(){
+
+  let c =
+    chats.find(
+      x => x.id === currentId
+    );
+
+
+  if(!c){
+
+    c = {
+
+      id:
+        Date.now().toString(),
+
+      title:
+        "नई चैट",
+
+      updated:
+        Date.now(),
+
+      messages:
+        []
+
+    };
+
+    chats.unshift(c);
+
+    currentId =
+      c.id;
+
+  }
+
+  return c;
+
+}
+
+
+function appendBubble(
+  role,
+  text
+){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.className =
+    "bubble " +
+    (
+      role === "user"
+      ? "user"
+      : "ai"
+    );
+
+
+  const body =
+    document.createElement(
+      "div"
+    );
+
+  body.textContent =
+    text;
+
+  div.appendChild(body);
+
+
+  if(role === "ai"){
+
+    const actions =
+      document.createElement(
+        "div"
+      );
+
+    actions.className =
+      "listactions";
+
+
+    const copy =
+      document.createElement(
+        "button"
+      );
+
+    copy.className =
+      "smallbtn";
+
+    copy.textContent =
+      "कॉपी";
+
+    copy.onclick =
+      () => copyString(text);
+
+
+    const fav =
+      document.createElement(
+        "button"
+      );
+
+    fav.className =
+      "smallbtn";
+
+    fav.textContent =
+      "♡ Save";
+
+    fav.onclick =
+      () => addFavorite(text);
+
+
+    const speak =
+      document.createElement(
+        "button"
+      );
+
+    speak.className =
+      "smallbtn";
+
+    speak.textContent =
+      "🔊";
+
+    speak.onclick =
+      () => speakText(text);
+
+
+    actions.append(
+      copy,
+      fav,
+      speak
+    );
+
+    div.appendChild(
+      actions
+    );
+
+  }
+
+
+  $("chatbox")
+    .appendChild(div);
+
+}
+
+
+function renderMessages(){
+
+  $("chatbox").innerHTML =
+    "";
+
+  const c =
+    chats.find(
+      x => x.id === currentId
+    );
+
+
+  if(
+    !c ||
+    !c.messages.length
+  ){
+
+    appendBubble(
+      "ai",
+      "नमस्ते! मैं ADRIX AI हूँ। आज मैं तुम्हारी क्या मदद करूँ?"
+    );
+
+    return;
+
+  }
+
+
+  c.messages.forEach(
+    m =>
+    appendBubble(
+      m.role,
+      m.text
+    )
+  );
+
+}
+
+
+function quickPrompt(text){
+
+  showPage("chat");
+
+  $("message").value =
+    text;
+
+  $("message").focus();
+
+}
+
+
+async function sendMessage(){
+
+  if(busy)
+    return;
+
+
+  const input =
+    $("message");
+
+  const text =
+    input.value.trim();
+
+
+  if(
+    !text &&
+    !imageData
+  ){
+
+    toast(
+      "पहले अपना सवाल लिखो या फोटो चुनो।"
+    );
+
+    return;
+
+  }
+
+
+  const c =
+    getCurrent();
+
+  const img =
+    imageData;
+
+
+  input.value =
+    "";
+
+  imageData =
+    null;
+
+  $("selectedImage").textContent =
+    "";
+
+
+  c.messages.push({
+
+    role:
+      "user",
+
+    text:
+      text ||
+      "इस फोटो को समझाओ",
+
+    image:
+      img || null
+
+  });
+
+
+  if(
+    c.messages.length === 1
+  ){
+
+    c.title =
+      (
+        text ||
+        "फोटो"
+      ).slice(0,45);
+
+  }
+
+
+  c.updated =
+    Date.now();
+
+  saveChats();
+
+  renderMessages();
+
+  await askBackend(
+    text ||
+    "इस फोटो को समझाओ",
+    img,
+    c
+  );
+
+}
+
+
+async function askBackend(
+  prompt,
+  image,
+  c
+){
+
+  busy =
+    true;
+
+  $("send").disabled =
+    true;
+
+  $("send").textContent =
+    "रुकें…";
+
+
+  const wait =
+    document.createElement(
+      "div"
+    );
+
+  wait.className =
+    "bubble ai";
+
+  wait.textContent =
+    "ADRIX सोच रहा है…";
+
+  wait.id =
+    "waiting";
+
+
+  $("chatbox")
+    .appendChild(wait);
+
+
+  try{
+
+    const payload = {
+
+      message:
+        prompt
+
+    };
+
+
+    if(image)
+      payload.image =
+        image;
+
+
+    const response =
+      await fetch(
+        apiBase()+"/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+
+    const raw =
+      await response.text();
+
+    let data = {};
+
+    try{
+
+      data =
+        JSON.parse(raw);
+
+    }catch{}
+
+
+    if(!response.ok){
+
+      if(response.status === 429){
+
+        throw new Error(
+          "API quota खत्म है या billing की समस्या है।"
+        );
+
+      }
+
+      if(response.status === 401){
+
+        throw new Error(
+          "Backend की API key गलत या missing है।"
+        );
+
+      }
+
+      throw new Error(
+        data.error ||
+        data.message ||
+        "Server error " +
+        response.status
+      );
+
+    }
+
+
+    const reply =
+      data.reply ||
+      data.answer ||
+      data.output_text ||
+      data.text;
+
+
+    if(!reply){
+
+      throw new Error(
+        "Backend से जवाब नहीं मिला।"
+      );
+
+    }
+
+
+    c.messages.push({
+
+      role:
+        "ai",
+
+      text:
+        String(reply)
+
+    });
+
+
+    c.updated =
+      Date.now();
+
+    saveChats();
+
+
+    wait.remove();
+
+    renderMessages();
+
+    renderRecent();
+
+
+  }catch(e){
+
+    wait.textContent =
+      "जवाब नहीं मिल पाया: " +
+      e.message +
+      "\n\nInternet, Render backend और API quota जाँचें।";
+
+
+    toast(
+      "AI connection में समस्या"
+    );
+
+
+  }finally{
+
+    busy =
+      false;
+
+    $("send").disabled =
+      false;
+
+    $("send").textContent =
+      "भेजें ➤";
+
+  }
+
+}
+
+
+function selectImage(input){
+
+  const file =
+    input.files &&
+    input.files[0];
+
+
+  if(!file)
+    return;
+
+
+  if(
+    file.size >
+    4*1024*1024
+  ){
+
+    toast(
+      "4 MB से छोटी फोटो चुनें।"
+    );
+
+    input.value =
+      "";
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    () => {
+
+      imageData =
+        reader.result;
+
+      $("selectedImage")
+        .textContent =
+        "फोटो चुनी गई: " +
+        file.name;
+
+    };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function previewImage(input){
+
+  const f =
+    input.files &&
+    input.files[0];
+
+
+  if(!f)
+    return;
+
+
+  if(
+    f.size >
+    4*1024*1024
+  ){
+
+    toast(
+      "4 MB से छोटी फोटो चुनें।"
+    );
+
+    input.value =
+      "";
+
+    return;
+
+  }
+
+
+  const r =
+    new FileReader();
+
+
+  r.onload =
+    () => {
+
+      $("imagepreview").src =
+        r.result;
+
+      $("imagepreview").style.display =
+        "block";
+
+    };
+
+
+  r.readAsDataURL(f);
+
+}
+
+
+async function askAboutImage(){
+
+  const file =
+    $("imagefile").files[0];
+
+
+  if(!file){
+
+    toast(
+      "पहले फोटो चुनो।"
+    );
+
+    return;
+
+  }
+
+
+  const question =
+    $("imagequestion").value.trim() ||
+    "इस फोटो में क्या है?";
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    async () => {
+
+      showPage("chat");
+
+      imageData =
+        reader.result;
+
+      $("message").value =
+        question;
+
+      await sendMessage();
+
+      $("imageresult").textContent =
+        "जवाब Chat स्क्रीन पर देखें।";
+
+    };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function startVoice(target){
+
+  const SR =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+  if(!SR){
+
+    toast(
+      "इस browser में speech recognition उपलब्ध नहीं है। Chrome में कोशिश करें।"
+    );
+
+    return;
+
+  }
+
+
+  const rec =
+    new SR();
+
+
+  rec.lang =
+    "hi-IN";
+
+  rec.interimResults =
+    false;
+
+  rec.maxAlternatives =
+    1;
+
+
+  if($("voiceStatus")){
+
+    $("voiceStatus").textContent =
+      "सुन रहा हूँ…";
+
+  }
+
+
+  rec.onresult =
+    e => {
+
+      const t =
+        e.results[0][0].transcript;
+
+      $(target).value =
+        (
+          $(target).value +
+          " " +
+          t
+        ).trim();
+
+
+      if($("voiceStatus")){
+
+        $("voiceStatus").textContent =
+          "सवाल सुन लिया!";
+
+      }
+
+    };
+
+
+  rec.onerror =
+    () => {
+
+      if($("voiceStatus")){
+
+        $("voiceStatus").textContent =
+          "आवाज़ नहीं मिली";
+
+      }
+
+      toast(
+        "Microphone permission जाँचें।"
+      );
+
+    };
+
+
+  rec.onend =
+    () => {
+
+      if(
+        $("voiceStatus") &&
+        $("voiceStatus").textContent ===
+        "सुन रहा हूँ…"
+      ){
+
+        $("voiceStatus").textContent =
+          "बोलकर पूछो";
+
+      }
+
+    };
+
+
+  try{
+
+    rec.start();
+
+  }catch{
+
+    toast(
+      "Voice recognition अभी शुरू नहीं हो सका।"
+    );
+
+  }
+
+}
+
+
+function sendVoicePrompt(){
+
+  const t =
+    $("voicePrompt")
+    .value
+    .trim();
+
+
+  if(!t){
+
+    toast(
+      "पहले बोलकर सवाल रिकॉर्ड करो।"
+    );
+
+    return;
+
+  }
+
+
+  showPage("chat");
+
+  $("message").value =
+    t;
+
+  sendMessage();
+
+}
+
+
+function speakText(text){
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+
+    toast(
+      "इस browser में text-to-speech उपलब्ध नहीं है।"
+    );
+
+    return;
+
+  }
+
+
+  speechSynthesis.cancel();
+
+
+  const u =
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+
+  u.lang =
+    /[\u0900-\u097F]/.test(text)
+    ? "hi-IN"
+    : "en-US";
+
+
+  speechSynthesis.speak(u);
+
+}
+
+
+function copyString(text){
+
+  if(
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ){
+
+    navigator.clipboard
+      .writeText(text)
+      .then(
+        () =>
+        toast("कॉपी हो गया")
+      )
+      .catch(
+        () =>
+        fallbackCopy(text)
+      );
+
+  }else{
+
+    fallbackCopy(text);
+
+  }
+
+}
+
+
+function fallbackCopy(text){
+
+  const ta =
+    document.createElement(
+      "textarea"
+    );
+
+  ta.value =
+    text;
+
+  document.body.appendChild(
+    ta
+  );
+
+  ta.select();
+
+  try{
+
+    document.execCommand(
+      "copy"
+    );
+
+    toast(
+      "कॉपी हो गया"
+    );
+
+  }catch{
+
+    toast(
+      "Text select करके कॉपी करें"
+    );
+
+  }
+
+  ta.remove();
+
+}
+
+
+function copyText(id){
+
+  copyString(
+    $(id).textContent
+  );
+
+}
+
+
+function addFavorite(text){
+
+  if(
+    favorites.some(
+      x => x.text === text
+    )
+  ){
+
+    toast(
+      "यह पहले से Saved है।"
+    );
+
+    return;
+
+  }
+
+
+  favorites.unshift({
+
+    id:
+      Date.now().toString(),
+
+    text,
+
+    created:
+      Date.now()
+
+  });
+
+
+  saveFavorites();
+
+  toast(
+    "Favorites में सेव हो गया"
+  );
+
+}
+
+
+function showResult(id,text){
+
+  $(id).textContent =
+    text;
+
+  $(id).classList.remove(
+    "muted"
+  );
+
+}
+
+
+async function runTool(
+  prompt,
+  resultId
+){
+
+  if(!prompt.trim()){
+
+    toast(
+      "पहले topic या text लिखो।"
+    );
+
+    return;
+
+  }
+
+
+  showResult(
+    resultId,
+    "ADRIX जवाब तैयार कर रहा है…"
+  );
+
+
+  try{
+
+    const r =
+      await fetch(
+        apiBase()+"/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              message:
+                prompt
+            })
+        }
+      );
+
+
+    const raw =
+      await r.text();
+
+    let d = {};
+
+    try{
+
+      d =
+        JSON.parse(raw);
+
+    }catch{}
+
+
+    if(!r.ok){
+
+      throw new Error(
+        d.error ||
+        d.message ||
+        "Server error " +
+        r.status
+      );
+
+    }
+
+
+    const answer =
+      d.reply ||
+      d.answer ||
+      d.output_text ||
+      d.text;
+
+
+    if(!answer){
+
+      throw new Error(
+        "Backend ने reply field नहीं भेजी।"
+      );
+
+    }
+
+
+    showResult(
+      resultId,
+      String(answer)
+    );
+
+
+  }catch(e){
+
+    showResult(
+      resultId,
+      "जवाब नहीं मिला: " +
+      e.message
+    );
+
+  }
+
+}
+
+
+function generateWriting(){
+
+  runTool(
+    $("writingmode").value +
+    " निम्न text/topic पर हिंदी में जवाब दो:\n" +
+    $("writingtext").value,
+    "writingresult"
+  );
+
+}
+
+
+function studyTask(task){
+
+  runTool(
+    "मैं " +
+    $("studyclass").value +
+    " का विद्यार्थी हूँ। Subject: " +
+    $("studysubject").value +
+    ". Topic: " +
+    $("studytext").value +
+    ". Task: " +
+    task +
+    ". आसान हिंदी में समझाओ।",
+    "studyresult"
+  );
+
+}
+
+
+function generateCode(){
+
+  runTool(
+    "इस request के लिए code और आसान explanation दो:\n" +
+    $("codetext").value,
+    "coderesult"
+  );
+
+}
+
+
+$("writingtext")
+.addEventListener(
+  "input",
+  () => {
+
+    const text =
+      $("writingtext")
+      .value
+      .trim();
+
+
+    $("wordcount")
+      .textContent =
+      text
+      ? text.split(/\s+/).length +
+        " शब्द"
+      : "0 शब्द";
+
+  }
+);
+
+
+function renderHistory(){
+
+  const box =
+    $("historylist");
+
+  box.innerHTML =
+    "";
+
+
+  if(!chats.length){
+
+    box.innerHTML =
+      '<div class="empty">अभी कोई इतिहास नहीं।</div>';
+
+    return;
+
+  }
+
+
+  chats.forEach(c => {
+
+    const item =
+      document.createElement(
+        "div"
+      );
+
+    item.className =
+      "listitem";
+
+
+    const title =
+      document.createElement(
+        "strong"
+      );
+
+    title.textContent =
+      c.title ||
+      "Chat";
+
+
+    const meta =
+      document.createElement(
+        "small"
+      );
+
+    meta.textContent =
+      new Date(
+        c.updated
+      ).toLocaleString() +
+      " • " +
+      c.messages.length +
+      " messages";
+
+
+    const actions =
+      document.createElement(
+        "div"
+      );
+
+    actions.className =
+      "listactions";
+
+
+    const open =
+      document.createElement(
+        "button"
+      );
+
+    open.className =
+      "secondary";
+
+    open.textContent =
+      "खोलें";
+
+
+    open.onclick =
+      () => {
+
+        currentId =
+          c.id;
+
+        renderMessages();
+
+        showPage(
+          "chat"
+        );
+
+      };
+
+
+    const del =
+      document.createElement(
+        "button"
+      );
+
+    del.className =
+      "secondary danger";
+
+    del.textContent =
+      "मिटाएँ";
+
+
+    del.onclick =
+      () => {
+
+        chats =
+          chats.filter(
+            x => x.id !== c.id
+          );
+
+        saveChats();
+
+        renderHistory();
+
+      };
+
+
+    actions.append(
+      open,
+      del
+    );
+
+
+    item.append(
+      title,
+      meta,
+      actions
+    );
+
+
+    box.appendChild(
+      item
+    );
+
+  });
+
+}
+
+
+function renderRecent(){
+
+  const box =
+    $("recent");
+
+  box.innerHTML =
+    "";
+
+
+  const recent =
+    chats.slice(0,3);
+
+
+  if(!recent.length){
+
+    box.innerHTML =
+      '<div class="empty">अभी कोई चैट नहीं। अपनी पहली बातचीत शुरू करो!</div>';
+
+    return;
+
+  }
+
+
+  recent.forEach(c => {
+
+    const b =
+      document.createElement(
+        "button"
+      );
+
+    b.className =
+      "listitem";
+
+    b.style.cssText =
+      "width:100%;text-align:left;background:transparent;color:inherit;border-top:0;border-left:0;border-right:0";
+
+
+    b.textContent =
+      "◉ " +
+      (c.title || "Chat") +
+      " · " +
+      new Date(
+        c.updated
+      ).toLocaleDateString();
+
+
+    b.onclick =
+      () => {
+
+        currentId =
+          c.id;
+
+        renderMessages();
+
+        showPage(
+          "chat"
+        );
+
+      };
+
+
+    box.appendChild(
+      b
+    );
+
+  });
+
+}
+
+
+function renderFavorites(){
+
+  const box =
+    $("favoriteslist");
+
+  box.innerHTML =
+    "";
+
+
+  if(!favorites.length){
+
+    box.innerHTML =
+      '<div class="empty">अभी कोई saved answer नहीं।</div>';
+
+    return;
+
+  }
+
+
+  favorites.forEach(f => {
+
+    const item =
+      document.createElement(
+        "div"
+      );
+
+    item.className =
+      "listitem";
+
+
+    const text =
+      document.createElement(
+        "div"
+      );
+
+    text.textContent =
+      f.text.slice(0,450) +
+      (
+        f.text.length > 450
+        ? "…"
+        : ""
+      );
+
+
+    const actions =
+      document.createElement(
+        "div"
+      );
+
+    actions.className =
+      "listactions";
+
+
+    const cp =
+      document.createElement(
+        "button"
+      );
+
+    cp.className =
+      "secondary";
+
+    cp.textContent =
+      "कॉपी";
+
+    cp.onclick =
+      () =>
+      copyString(f.text);
+
+
+    const rm =
+      document.createElement(
+        "button"
+      );
+
+    rm.className =
+      "secondary danger";
+
+    rm.textContent =
+      "हटाएँ";
+
+
+    rm.onclick =
+      () => {
+
+        favorites =
+          favorites.filter(
+            x => x.id !== f.id
+          );
+
+        saveFavorites();
+
+        renderFavorites();
+
+      };
+
+
+    actions.append(
+      cp,
+      rm
+    );
+
+
+    item.append(
+      text,
+      actions
+    );
+
+
+    box.appendChild(
+      item
+    );
+
+  });
+
+}
+
+
+function clearHistory(){
+
+  if(
+    !confirm(
+      "सारी local chat history मिटाएँ?"
+    )
+  )
+    return;
+
+
+  chats =
+    [];
+
+  currentId =
+    null;
+
+  saveChats();
+
+  renderHistory();
+
+  renderRecent();
+
+  toast(
+    "History मिट गई"
+  );
+
+}
+
+
+function deleteAllData(){
+
+  if(
+    !confirm(
+      "सभी local chats, favorites और settings मिटाएँ?"
+    )
+  )
+    return;
+
+
+  [
+    "adrix_chats",
+    "adrix_favorites",
+    "adrix_backend"
+  ].forEach(
+    k =>
+    localStorage.removeItem(k)
+  );
+
+
+  chats =
+    [];
+
+  favorites =
+    [];
+
+  currentId =
+    null;
+
+
+  $("backendurl").value =
+    DEFAULT_API;
+
+
+  renderHistory();
+
+  renderFavorites();
+
+  renderRecent();
+
+  toast(
+    "Local data मिटा दिया गया।"
+  );
+
+}
+
+
+function exportData(){
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          {
+            chats,
+            favorites,
+            exportedAt:
+              new Date().toISOString()
+          },
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+  a.href =
+    url;
+
+  a.download =
+    "adrix-data.json";
+
+  a.click();
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
+
+function saveSettings(){
+
+  const url =
+    $("backendurl")
+    .value
+    .trim();
+
+
+  if(
+    url &&
+    !/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(url)
+  ){
+
+    toast(
+      "HTTPS backend URL सही डालें।"
+    );
+
+    return;
+
+  }
+
+
+  if(url)
+    localStorage.setItem(
+      "adrix_backend",
+      url
+    );
+  else
+    localStorage.removeItem(
+      "adrix_backend"
+    );
+
+
+  toast(
+    "Settings सेव हो गईं।"
+  );
+
+
+  testBackend();
+
+}
+
+
+async function testBackend(){
+
+  $("connectionstatus")
+    .textContent =
+    "Backend से संपर्क किया जा रहा है…";
+
+
+  try{
+
+    const r =
+      await fetch(
+        apiBase()+"/",
+        {
+          method:"GET"
+        }
+      );
+
+
+    $("connectionstatus")
+      .textContent =
+      r.ok
+      ? "Server reachable (HTTP " +
+        r.status +
+        ")."
+      : "Server ने HTTP " +
+        r.status +
+        " लौटाया।";
+
+
+  }catch{
+
+    $("connectionstatus")
+      .textContent =
+      "Connection नहीं हुआ। Backend sleeping, URL या CORS जाँचें।";
+
+  }
+
+}
+
+
+$("message")
+.addEventListener(
+  "keydown",
+  e => {
+
+    if(
+      e.key === "Enter" &&
+      !e.shiftKey
+    ){
+
+      e.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+$("backendurl").value =
+  localStorage.getItem(
+    "adrix_backend"
+  ) ||
+  DEFAULT_API;
+
+
+renderRecent();
+
+</script>
 
 </body>
 </html>
